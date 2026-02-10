@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';
 import { Tabs } from '@angular/aria/tabs';
-import { cn } from '../utils';
+import { cn } from '../../utils';
 
 @Component({
   selector: '[scTabs]',
