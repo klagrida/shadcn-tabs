@@ -11,6 +11,7 @@ import { cn } from '../utils';
     },
   ],
   host: {
+    'data-slot': 'tabs',
     '[class]': 'class()',
     '[attr.data-orientation]': 'orientation()',
   },

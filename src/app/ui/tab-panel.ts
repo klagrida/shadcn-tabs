@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';
 import { TabPanel } from '@angular/aria/tabs';
 import { cn } from '../utils';
 
 @Component({
   selector: '[scTabPanel]',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   hostDirectives: [
     {
       directive: TabPanel,
@@ -12,6 +13,7 @@ import { cn } from '../utils';
     },
   ],
   host: {
+    'data-slot': 'tabs-content',
     '[class]': 'class()',
   },
   template: `<ng-content />`,

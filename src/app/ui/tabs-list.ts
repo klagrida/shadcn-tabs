@@ -31,6 +31,7 @@ type TabsListVariant = VariantProps<typeof tabsListVariants>['variant'];
     },
   ],
   host: {
+    'data-slot': 'tabs-list',
     '[class]': 'class()',
     '[attr.data-variant]': 'variant()',
   },
