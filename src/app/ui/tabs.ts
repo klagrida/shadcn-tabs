@@ -22,6 +22,6 @@ export class ScTabs {
   readonly classInput = input<string>('', { alias: 'class' });
   readonly orientation = input<'horizontal' | 'vertical'>('horizontal');
   readonly class = computed(() =>
-    cn('group gap-2 flex', this.orientation() === 'horizontal' ? 'flex-col' : 'flex-row', this.classInput()),
+    cn('group/tabs gap-2 flex data-[orientation=horizontal]:flex-col data-[orientation=vertical]:flex-row', this.classInput()),
   );
 }
