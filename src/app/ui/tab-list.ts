@@ -18,7 +18,7 @@ export const tabsListVariants = cva(
   },
 );
 
-type TabsListVariant = VariantProps<typeof tabsListVariants>['variant'];
+type ScTabListVariant = VariantProps<typeof tabsListVariants>['variant'];
 
 @Component({
   selector: '[scTabList]',
@@ -40,6 +40,6 @@ type TabsListVariant = VariantProps<typeof tabsListVariants>['variant'];
 })
 export class ScTabList {
   readonly classInput = input<string>('', { alias: 'class' });
-  readonly variant = input<TabsListVariant>('default');
+  readonly variant = input<ScTabListVariant>('default');
   readonly class = computed(() => cn(tabsListVariants({ variant: this.variant() }), this.classInput()));
 }
