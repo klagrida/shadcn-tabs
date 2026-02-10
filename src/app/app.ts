@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ScTab, ScTabContent, ScTabPanel, ScTabs, ScTabsList } from './ui/tabs';
+import { ScTab, ScTabContent, ScTabPanel, ScTabs, ScTabsList } from './ui';
 
 @Component({
   selector: 'app-root',

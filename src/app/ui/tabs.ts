@@ -1,5 +1,25 @@
-export { ScTabs } from './tabs-root';
-export { ScTabsList, tabsListVariants } from './tabs-list';
-export { ScTab } from './tab';
-export { ScTabPanel } from './tab-panel';
-export { ScTabContent } from './tab-content';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { Tabs } from '@angular/aria/tabs';
+import { cn } from '../utils';
+
+@Component({
+  selector: '[scTabs]',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  hostDirectives: [
+    {
+      directive: Tabs,
+    },
+  ],
+  host: {
+    '[class]': 'computedClass()',
+    '[attr.data-orientation]': 'orientation()',
+  },
+  template: `<ng-content />`,
+})
+export class ScTabs {
+  readonly class = input<string>('');
+  readonly orientation = input<'horizontal' | 'vertical'>('horizontal');
+  readonly computedClass = computed(() =>
+    cn('gap-2 flex', this.orientation() === 'horizontal' ? 'flex-col' : 'flex-row', this.class()),
+  );
+}
