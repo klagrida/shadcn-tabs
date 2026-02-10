@@ -4,7 +4,7 @@ import { type VariantProps, cva } from 'class-variance-authority';
 import { cn } from '../utils';
 
 export const tabsListVariants = cva(
-  'rounded-lg p-[3px] group-data-horizontal:h-8 data-[variant=line]:rounded-none text-muted-foreground inline-flex w-fit items-center justify-center group-data-vertical:h-fit group-data-vertical:flex-col',
+  'rounded-lg p-[3px] group-data-[orientation=horizontal]:h-8 data-[variant=line]:rounded-none text-muted-foreground inline-flex w-fit items-center justify-center group-data-[orientation=vertical]:h-fit group-data-[orientation=vertical]:flex-col',
   {
     variants: {
       variant: {
