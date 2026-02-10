@@ -11,12 +11,12 @@ import { cn } from '../utils';
     },
   ],
   host: {
-    '[class]': 'computedClass()',
+    '[class]': 'class()',
   },
 })
 export class ScTab {
-  readonly class = input<string>('');
-  readonly computedClass = computed(() =>
+  readonly classInput = input<string>('', { alias: 'class' });
+  readonly class = computed(() =>
     cn(
       "gap-1.5 rounded-md border border-transparent px-1.5 py-0.5 text-sm font-medium",
       "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring",
@@ -37,7 +37,7 @@ export class ScTab {
       "group-data-horizontal:after:inset-x-0 group-data-horizontal:after:bottom-[-5px] group-data-horizontal:after:h-0.5",
       "group-data-vertical:after:inset-y-0 group-data-vertical:after:-right-1 group-data-vertical:after:w-0.5",
       "group-data-[variant=line]:aria-selected:after:opacity-100",
-      this.class(),
+      this.classInput(),
     ),
   );
 }

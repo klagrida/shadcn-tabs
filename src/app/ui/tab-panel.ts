@@ -12,11 +12,11 @@ import { cn } from '../utils';
     },
   ],
   host: {
-    '[class]': 'computedClass()',
+    '[class]': 'class()',
   },
   template: `<ng-content />`,
 })
 export class ScTabPanel {
-  readonly class = input<string>('');
-  readonly computedClass = computed(() => cn('text-sm flex-1 outline-none', this.class()));
+  readonly classInput = input<string>('', { alias: 'class' });
+  readonly class = computed(() => cn('text-sm flex-1 outline-none', this.classInput()));
 }

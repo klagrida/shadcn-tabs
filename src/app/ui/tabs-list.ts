@@ -31,13 +31,13 @@ type TabsListVariant = VariantProps<typeof tabsListVariants>['variant'];
     },
   ],
   host: {
-    '[class]': 'computedClass()',
+    '[class]': 'class()',
     '[attr.data-variant]': 'variant()',
   },
   template: `<ng-content />`,
 })
 export class ScTabsList {
-  readonly class = input<string>('');
+  readonly classInput = input<string>('', { alias: 'class' });
   readonly variant = input<TabsListVariant>('default');
-  readonly computedClass = computed(() => cn(tabsListVariants({ variant: this.variant() }), this.class()));
+  readonly class = computed(() => cn(tabsListVariants({ variant: this.variant() }), this.classInput()));
 }

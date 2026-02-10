@@ -11,15 +11,15 @@ import { cn } from '../utils';
     },
   ],
   host: {
-    '[class]': 'computedClass()',
+    '[class]': 'class()',
     '[attr.data-orientation]': 'orientation()',
   },
   template: `<ng-content />`,
 })
 export class ScTabs {
-  readonly class = input<string>('');
+  readonly classInput = input<string>('', { alias: 'class' });
   readonly orientation = input<'horizontal' | 'vertical'>('horizontal');
-  readonly computedClass = computed(() =>
-    cn('gap-2 flex', this.orientation() === 'horizontal' ? 'flex-col' : 'flex-row', this.class()),
+  readonly class = computed(() =>
+    cn('gap-2 flex', this.orientation() === 'horizontal' ? 'flex-col' : 'flex-row', this.classInput()),
   );
 }
