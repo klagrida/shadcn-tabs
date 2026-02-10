@@ -1,5 +1,5 @@
-export { ShTabs } from './sh-tabs';
-export { ShTabsList, tabsListVariants } from './sh-tabs-list';
-export { ShTab } from './sh-tab';
-export { ShTabPanel } from './sh-tab-panel';
-export { ShTabContent } from './sh-tab-content';
+export { ScTabs } from './tabs-root';
+export { ScTabsList, tabsListVariants } from './tabs-list';
+export { ScTab } from './tab';
+export { ScTabPanel } from './tab-panel';
+export { ScTabContent } from './tab-content';

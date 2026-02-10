@@ -3,7 +3,7 @@ import { Tab } from '@angular/aria/tabs';
 import { cn } from '../utils';
 
 @Directive({
-  selector: '[shTab]',
+  selector: '[scTab]',
   hostDirectives: [
     {
       directive: Tab,
@@ -14,7 +14,7 @@ import { cn } from '../utils';
     '[class]': 'computedClass()',
   },
 })
-export class ShTab {
+export class ScTab {
   readonly class = input<string>('');
   readonly computedClass = computed(() =>
     cn(

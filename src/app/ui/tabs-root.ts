@@ -3,7 +3,7 @@ import { Tabs } from '@angular/aria/tabs';
 import { cn } from '../utils';
 
 @Component({
-  selector: '[shTabs]',
+  selector: '[scTabs]',
   changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [
     {
@@ -16,7 +16,7 @@ import { cn } from '../utils';
   },
   template: `<ng-content />`,
 })
-export class ShTabs {
+export class ScTabs {
   readonly class = input<string>('');
   readonly orientation = input<'horizontal' | 'vertical'>('horizontal');
   readonly computedClass = computed(() =>

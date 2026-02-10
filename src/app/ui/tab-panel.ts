@@ -3,7 +3,7 @@ import { TabPanel } from '@angular/aria/tabs';
 import { cn } from '../utils';
 
 @Component({
-  selector: '[shTabPanel]',
+  selector: '[scTabPanel]',
   changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [
     {
@@ -16,7 +16,7 @@ import { cn } from '../utils';
   },
   template: `<ng-content />`,
 })
-export class ShTabPanel {
+export class ScTabPanel {
   readonly class = input<string>('');
   readonly computedClass = computed(() => cn('text-sm flex-1 outline-none', this.class()));
 }
