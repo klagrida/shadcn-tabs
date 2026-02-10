@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';
 import { TabList } from '@angular/aria/tabs';
 import { type VariantProps, cva } from 'class-variance-authority';
 import { cn } from '../utils';
@@ -23,6 +23,7 @@ type TabsListVariant = VariantProps<typeof tabsListVariants>['variant'];
 @Component({
   selector: '[scTabsList]',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   hostDirectives: [
     {
       directive: TabList,
