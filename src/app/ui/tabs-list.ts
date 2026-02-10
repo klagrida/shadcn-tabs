@@ -21,7 +21,7 @@ export const tabsListVariants = cva(
 type TabsListVariant = VariantProps<typeof tabsListVariants>['variant'];
 
 @Component({
-  selector: '[scTabsList]',
+  selector: '[scTabList]',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   hostDirectives: [
@@ -38,7 +38,7 @@ type TabsListVariant = VariantProps<typeof tabsListVariants>['variant'];
   },
   template: `<ng-content />`,
 })
-export class ScTabsList {
+export class ScTabList {
   readonly classInput = input<string>('', { alias: 'class' });
   readonly variant = input<TabsListVariant>('default');
   readonly class = computed(() => cn(tabsListVariants({ variant: this.variant() }), this.classInput()));
