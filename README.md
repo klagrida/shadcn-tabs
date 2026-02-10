@@ -1,1 +1,1 @@
-https://angular.dev/guide/aria/tabs
+using https://angular.dev/guide/aria/tabs ang tabs.tsx. cretate a tabs and keep styles from shadcn
