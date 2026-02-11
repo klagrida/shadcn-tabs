@@ -1,8 +1,8 @@
 export { ScDropdownMenuProvider } from './dropdown-menu-provider';
 export { ScDropdownMenuTrigger } from './dropdown-menu-trigger';
-export { ScDropdownMenuPopover } from './dropdown-menu-popover';
+export { ScDropdownMenuPortal } from './dropdown-menu-portal';
 export { ScDropdownMenu } from './dropdown-menu';
-export { ScDropdownMenuContentTemplate } from './dropdown-menu-content-template';
+export { ScDropdownMenuContent } from './dropdown-menu-content';
 export { ScDropdownMenuItem } from './dropdown-menu-item';
 export { ScDropdownMenuGroup } from './dropdown-menu-group';
 export { ScDropdownMenuLabel } from './dropdown-menu-label';

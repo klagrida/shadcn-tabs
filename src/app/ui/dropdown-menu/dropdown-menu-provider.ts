@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, contentChild, input, View
 import { NgTemplateOutlet } from '@angular/common';
 import { CdkConnectedOverlay, type ConnectedPosition } from '@angular/cdk/overlay';
 import { MenuTrigger } from '@angular/aria/menu';
-import { ScDropdownMenuPopover } from './dropdown-menu-popover';
+import { ScDropdownMenuPortal } from './dropdown-menu-portal';
 
 @Component({
   selector: 'sc-dropdown-menu-provider',
@@ -23,14 +23,14 @@ import { ScDropdownMenuPopover } from './dropdown-menu-popover';
         [cdkConnectedOverlayPositions]="positions()"
         [cdkConnectedOverlayOffsetY]="offsetY()"
       >
-        <ng-container [ngTemplateOutlet]="popoverTemplate()" />
+        <ng-container [ngTemplateOutlet]="portalTemplate()" />
       </ng-template>
     }
   `,
 })
 export class ScDropdownMenuProvider {
   private readonly trigger = contentChild(MenuTrigger);
-  private readonly popover = contentChild(ScDropdownMenuPopover);
+  private readonly portal = contentChild(ScDropdownMenuPortal);
 
   readonly positions = input<ConnectedPosition[]>([
     { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top' },
@@ -42,5 +42,5 @@ export class ScDropdownMenuProvider {
 
   protected readonly open = computed(() => this.trigger()?.expanded() ?? false);
   protected readonly origin = computed(() => this.trigger()?.element);
-  protected readonly popoverTemplate = computed(() => this.popover()?.templateRef ?? null);
+  protected readonly portalTemplate = computed(() => this.portal()?.templateRef ?? null);
 }

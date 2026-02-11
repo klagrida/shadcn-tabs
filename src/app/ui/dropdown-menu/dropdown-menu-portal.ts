@@ -1,8 +1,8 @@
 import { Directive, inject, TemplateRef } from '@angular/core';
 
 @Directive({
-  selector: 'ng-template[scDropdownMenuPopover]',
+  selector: 'ng-template[scDropdownMenuPortal]',
 })
-export class ScDropdownMenuPopover {
+export class ScDropdownMenuPortal {
   readonly templateRef = inject(TemplateRef);
 }

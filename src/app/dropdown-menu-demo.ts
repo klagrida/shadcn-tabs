@@ -3,9 +3,9 @@ import { Menu } from '@angular/aria/menu';
 import {
   ScDropdownMenuProvider,
   ScDropdownMenuTrigger,
-  ScDropdownMenuPopover,
+  ScDropdownMenuPortal,
   ScDropdownMenu,
-  ScDropdownMenuContentTemplate,
+  ScDropdownMenuContent,
   ScDropdownMenuItem,
   ScDropdownMenuGroup,
   ScDropdownMenuLabel,
@@ -18,9 +18,9 @@ import {
   imports: [
     ScDropdownMenuProvider,
     ScDropdownMenuTrigger,
-    ScDropdownMenuPopover,
+    ScDropdownMenuPortal,
     ScDropdownMenu,
-    ScDropdownMenuContentTemplate,
+    ScDropdownMenuContent,
     ScDropdownMenuItem,
     ScDropdownMenuGroup,
     ScDropdownMenuLabel,
@@ -41,9 +41,9 @@ import {
           Open Menu
         </button>
 
-        <ng-template scDropdownMenuPopover>
+        <ng-template scDropdownMenuPortal>
           <div scDropdownMenu #menuRef="ngMenu" (onSelect)="onSelect($event)">
-            <ng-template scDropdownMenuContentTemplate>
+            <ng-template scDropdownMenuContent>
               <div scDropdownMenuLabel>My Account</div>
               <div scDropdownMenuSeparator></div>
               <div scDropdownMenuGroup>
