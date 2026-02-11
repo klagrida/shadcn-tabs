@@ -42,6 +42,42 @@ import { ScAccordionGroup, ScAccordionItem, ScAccordionTrigger, ScAccordionPanel
           </div>
         </div>
       </section>
+
+      <section>
+        <h2 class="text-lg font-semibold mb-4">Single Expand</h2>
+        <div scAccordionGroup [multiExpandable]="false">
+          <div scAccordionItem>
+            <button scAccordionTrigger panelId="single-1">What is Angular?</button>
+            <div scAccordionPanel panelId="single-1">
+              <ng-template scAccordionContent>
+                <sc-accordion-body>
+                  Angular is a web application framework built by Google for creating single-page applications.
+                </sc-accordion-body>
+              </ng-template>
+            </div>
+          </div>
+          <div scAccordionItem>
+            <button scAccordionTrigger panelId="single-2">What are signals?</button>
+            <div scAccordionPanel panelId="single-2">
+              <ng-template scAccordionContent>
+                <sc-accordion-body>
+                  Signals are reactive primitives that notify consumers when their value changes.
+                </sc-accordion-body>
+              </ng-template>
+            </div>
+          </div>
+          <div scAccordionItem>
+            <button scAccordionTrigger panelId="single-3">What is change detection?</button>
+            <div scAccordionPanel panelId="single-3">
+              <ng-template scAccordionContent>
+                <sc-accordion-body>
+                  Change detection is the mechanism Angular uses to keep the UI in sync with the component state.
+                </sc-accordion-body>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   `,
 })
