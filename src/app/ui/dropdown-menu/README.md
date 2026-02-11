@@ -2,86 +2,94 @@
 
 ## Overview
 
-Shadcn-styled wrapper components around `@angular/aria/menu` directives, with `CdkConnectedOverlay` for overlay positioning.
+Shadcn-styled wrapper components around `@angular/aria/menu` directives. `ScDropdownMenu` is the root component that encapsulates `CdkConnectedOverlay` for overlay positioning and auto-flip.
 
 ## Layer diagram
 
 ```
-Consumer template (demo)
+ScDropdownMenu (root — manages CdkConnectedOverlay internally)
   |
-  |-- ScDropdownMenuTrigger   --> hostDirective: MenuTrigger (aria/menu)
-  |-- CdkConnectedOverlay     --> CDK overlay (positioning + flip)
+  |-- <ng-content /> (projects trigger)
+  |     |-- ScDropdownMenuTrigger   --> hostDirective: MenuTrigger
+  |
+  |-- CdkConnectedOverlay (internal, driven by trigger.expanded())
   |     |
-  |     |-- ScDropdownMenuContent      --> hostDirective: Menu (aria/menu)
+  |     |-- ScDropdownMenuPopover (ng-template directive, captures TemplateRef)
   |           |
-  |           |-- ScDropdownMenuContentTemplate --> hostDirective: MenuContent (deferred rendering)
+  |           |-- ScDropdownMenuContent      --> hostDirective: Menu
   |                 |
-  |                 |-- ScDropdownMenuLabel
-  |                 |-- ScDropdownMenuSeparator
-  |                 |-- ScDropdownMenuGroup
-  |                 |     |-- ScDropdownMenuItem  --> hostDirective: MenuItem (aria/menu)
-  |                 |           |-- ScDropdownMenuShortcut
+  |                 |-- ScDropdownMenuContentTemplate --> hostDirective: MenuContent (deferred)
+  |                       |
+  |                       |-- ScDropdownMenuLabel
+  |                       |-- ScDropdownMenuSeparator
+  |                       |-- ScDropdownMenuGroup
+  |                       |     |-- ScDropdownMenuItem  --> hostDirective: MenuItem
+  |                       |           |-- ScDropdownMenuShortcut
 ```
+
+## How ScDropdownMenu works
+
+`ScDropdownMenu` is the root provider component (`display: contents`). It:
+
+1. Projects the trigger via `<ng-content />`
+2. Queries the `MenuTrigger` host directive via `contentChild(MenuTrigger)`
+3. Queries the `ScDropdownMenuPopover` template via `contentChild(ScDropdownMenuPopover)`
+4. Internally creates a `CdkConnectedOverlay` wired to:
+   - `open` = `trigger.expanded()`
+   - `origin` = `trigger.element`
+   - `positions` = configurable fallback positions (default: below-start, above-start, below-end, above-end)
+   - `offsetY` = configurable (default: 4)
+5. Renders the popover template inside the overlay via `ngTemplateOutlet`
+
+### Inputs
+
+| Input | Type | Default | Description |
+|---|---|---|---|
+| `positions` | `ConnectedPosition[]` | 4 fallback positions | CDK overlay position strategy |
+| `offsetY` | `number` | `4` | Vertical offset from trigger |
 
 ## Key relationships
 
 ### Trigger <-> Menu connection
 
-`MenuTrigger` connects to `Menu` via the `[menu]` input. Because the menu lives inside a `CdkConnectedOverlay` ng-template (only rendered when open), the consumer must use `viewChild(Menu)` to get the reference:
+`MenuTrigger` connects to `Menu` via the `[menu]` input. Because the menu lives inside the overlay (only rendered when open), the consumer uses `viewChild(Menu)` to get the reference:
 
 ```typescript
-// In consumer component
 readonly menu = viewChild(Menu);
 ```
 
 ```html
-<button scDropdownMenuTrigger [menu]="menu()" #trigger="ngMenuTrigger">Open</button>
+<button scDropdownMenuTrigger [menu]="menu()">Open</button>
 ```
 
-`viewChild(Menu)` returns `undefined` until the overlay renders the menu. `MenuTrigger` accepts `Menu | undefined`, so this works.
+`viewChild(Menu)` returns `undefined` until the overlay renders. `MenuTrigger` accepts `Menu | undefined`, so this works.
 
-### Overlay positioning
+### Overlay positioning & auto-flip
 
-`CdkConnectedOverlay` handles:
-- Rendering the menu content into a CDK overlay container
-- Positioning relative to the trigger element via `[cdkConnectedOverlayOrigin]`
-- **Auto-flip**: the `positions` array defines fallback positions. When the preferred position (below-start) doesn't fit, it tries the next (above-start, etc.)
+`CdkConnectedOverlay` (inside `ScDropdownMenu`) handles:
+- Rendering menu content into a CDK overlay container
+- Positioning relative to the trigger element
+- **Auto-flip**: the `positions` array defines fallback positions. When below-start doesn't fit, it tries above-start, etc.
 
+The consumer can override positions via the input:
 ```html
-<ng-template
-  cdkConnectedOverlay
-  [cdkConnectedOverlayOpen]="trigger.expanded()"
-  [cdkConnectedOverlayOrigin]="trigger.element"
-  [cdkConnectedOverlayPositions]="positions"
-  [cdkConnectedOverlayOffsetY]="4"
->
-  <div scDropdownMenuContent>...</div>
-</ng-template>
+<sc-dropdown-menu [positions]="customPositions">
 ```
-
-The consumer defines `positions` (typically bottom-start with top-start fallback).
 
 ### Deferred content
 
 `Menu` has `DeferredContentAware` as a host directive. `MenuContent` (wrapped by `ScDropdownMenuContentTemplate`) has `DeferredContent`. Together they lazily render menu items only when the menu becomes visible.
 
-```html
-<div scDropdownMenuContent #menu="ngMenu">
-  <ng-template scDropdownMenuContentTemplate>
-    <!-- Items only render when menu is open -->
-    <div scDropdownMenuItem value="cut">Cut</div>
-  </ng-template>
-</div>
-```
-
 ## Component breakdown
 
 | Component | Type | Angular Aria directive | Purpose |
 |---|---|---|---|
+| `ScDropdownMenu` | Component | none | Root provider, manages CdkConnectedOverlay |
 | `ScDropdownMenuTrigger` | Directive | `MenuTrigger` | Button/element that opens the menu |
+| `ScDropdownMenuPopover` | Directive | none | Captures `ng-template` TemplateRef for the overlay |
 | `ScDropdownMenuContent` | Component | `Menu` | Styled menu container |
 | `ScDropdownMenuContentTemplate` | Directive | `MenuContent` | Lazy rendering wrapper (`ng-template`) |
-| `ScDropdownMenuItem` | Component | `MenuItem` | Individual menu item with `value`, `inset`, `variant` |
+| `ScDropdownMenuItem` | Component | `MenuItem` | Menu item with `value`, `inset`, `variant` |
 | `ScDropdownMenuGroup` | Directive | none | Structural grouping (`role="group"`) |
 | `ScDropdownMenuLabel` | Directive | none | Section label with optional `inset` |
 | `ScDropdownMenuSeparator` | Directive | none | Visual separator (`role="separator"`) |
@@ -89,40 +97,30 @@ The consumer defines `positions` (typically bottom-start with top-start fallback
 
 ## Known limitations
 
-- **Chicken-and-egg with overlay**: The `[menu]` binding is `undefined` on first render because the menu is inside the overlay template. `viewChild(Menu)` resolves this reactively once the overlay opens.
+- **Chicken-and-egg with overlay**: `[menu]` is `undefined` on first render because the menu is inside the overlay template. `viewChild(Menu)` resolves reactively once the overlay opens.
 - **Phase 1 scope**: No checkbox items, radio items, or submenus yet.
 
 ## Consumer usage pattern
 
 ```html
-<!-- Trigger -->
-<button scDropdownMenuTrigger [menu]="menu()" #trigger="ngMenuTrigger">
-  Open
-</button>
+<sc-dropdown-menu>
+  <button scDropdownMenuTrigger [menu]="menu()">Open</button>
 
-<!-- Overlay positions the menu -->
-<ng-template
-  cdkConnectedOverlay
-  [cdkConnectedOverlayOpen]="trigger.expanded()"
-  [cdkConnectedOverlayOrigin]="trigger.element"
-  [cdkConnectedOverlayPositions]="positions"
-  [cdkConnectedOverlayOffsetY]="4"
->
-  <div scDropdownMenuContent #menuRef="ngMenu" (onSelect)="handleSelect($event)">
-    <ng-template scDropdownMenuContentTemplate>
-      <div scDropdownMenuLabel>Section</div>
-      <div scDropdownMenuSeparator></div>
-      <div scDropdownMenuItem value="action">Action</div>
-    </ng-template>
-  </div>
-</ng-template>
+  <ng-template scDropdownMenuPopover>
+    <div scDropdownMenuContent #menuRef="ngMenu" (onSelect)="handleSelect($event)">
+      <ng-template scDropdownMenuContentTemplate>
+        <div scDropdownMenuLabel>Section</div>
+        <div scDropdownMenuSeparator></div>
+        <div scDropdownMenuItem value="action">
+          Action
+          <span scDropdownMenuShortcut>⌘A</span>
+        </div>
+      </ng-template>
+    </div>
+  </ng-template>
+</sc-dropdown-menu>
 ```
 
 ```typescript
 readonly menu = viewChild(Menu);
-
-readonly positions: ConnectedPosition[] = [
-  { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top' },
-  { originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom' },
-];
 ```

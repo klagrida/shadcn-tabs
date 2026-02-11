@@ -1,4 +1,6 @@
+export { ScDropdownMenu } from './dropdown-menu';
 export { ScDropdownMenuTrigger } from './dropdown-menu-trigger';
+export { ScDropdownMenuPopover } from './dropdown-menu-popover';
 export { ScDropdownMenuContent } from './dropdown-menu-content';
 export { ScDropdownMenuContentTemplate } from './dropdown-menu-content-template';
 export { ScDropdownMenuItem } from './dropdown-menu-item';
