@@ -10,21 +10,21 @@ Shadcn-styled wrapper components around `@angular/aria/menu` directives. `ScDrop
 ScDropdownMenuProvider (root — manages CdkConnectedOverlay internally)
   |
   |-- <ng-content /> (projects trigger)
-  |     |-- ScDropdownMenuProviderTrigger   --> hostDirective: MenuTrigger
+  |     |-- ScDropdownMenuTrigger   --> hostDirective: MenuTrigger
   |
   |-- CdkConnectedOverlay (internal, driven by trigger.expanded())
   |     |
-  |     |-- ScDropdownMenuProviderPopover (ng-template directive, captures TemplateRef)
+  |     |-- ScDropdownMenuPopover (ng-template directive, captures TemplateRef)
   |           |
-  |           |-- ScDropdownMenuProviderContent      --> hostDirective: Menu
+  |           |-- ScDropdownMenu      --> hostDirective: Menu
   |                 |
-  |                 |-- ScDropdownMenuProviderContentTemplate --> hostDirective: MenuContent (deferred)
+  |                 |-- ScDropdownMenuContentTemplate --> hostDirective: MenuContent (deferred)
   |                       |
-  |                       |-- ScDropdownMenuProviderLabel
-  |                       |-- ScDropdownMenuProviderSeparator
-  |                       |-- ScDropdownMenuProviderGroup
-  |                       |     |-- ScDropdownMenuProviderItem  --> hostDirective: MenuItem
-  |                       |           |-- ScDropdownMenuProviderShortcut
+  |                       |-- ScDropdownMenuLabel
+  |                       |-- ScDropdownMenuSeparator
+  |                       |-- ScDropdownMenuGroup
+  |                       |     |-- ScDropdownMenuItem  --> hostDirective: MenuItem
+  |                       |           |-- ScDropdownMenuShortcut
 ```
 
 ## How ScDropdownMenuProvider works
@@ -33,7 +33,7 @@ ScDropdownMenuProvider (root — manages CdkConnectedOverlay internally)
 
 1. Projects the trigger via `<ng-content />`
 2. Queries the `MenuTrigger` host directive via `contentChild(MenuTrigger)`
-3. Queries the `ScDropdownMenuProviderPopover` template via `contentChild(ScDropdownMenuProviderPopover)`
+3. Queries the `ScDropdownMenuPopover` template via `contentChild(ScDropdownMenuPopover)`
 4. Internally creates a `CdkConnectedOverlay` wired to:
    - `open` = `trigger.expanded()`
    - `origin` = `trigger.element`
@@ -73,27 +73,27 @@ readonly menu = viewChild(Menu);
 
 The consumer can override positions via the input:
 ```html
-<sc-dropdown-menu [positions]="customPositions">
+<sc-dropdown-menu-provider [positions]="customPositions">
 ```
 
 ### Deferred content
 
-`Menu` has `DeferredContentAware` as a host directive. `MenuContent` (wrapped by `ScDropdownMenuProviderContentTemplate`) has `DeferredContent`. Together they lazily render menu items only when the menu becomes visible.
+`Menu` has `DeferredContentAware` as a host directive. `MenuContent` (wrapped by `ScDropdownMenuContentTemplate`) has `DeferredContent`. Together they lazily render menu items only when the menu becomes visible.
 
 ## Component breakdown
 
 | Component | Type | Angular Aria directive | Purpose |
 |---|---|---|---|
 | `ScDropdownMenuProvider` | Component | none | Root provider, manages CdkConnectedOverlay |
-| `ScDropdownMenuProviderTrigger` | Directive | `MenuTrigger` | Button/element that opens the menu |
-| `ScDropdownMenuProviderPopover` | Directive | none | Captures `ng-template` TemplateRef for the overlay |
-| `ScDropdownMenuProviderContent` | Component | `Menu` | Styled menu container |
-| `ScDropdownMenuProviderContentTemplate` | Directive | `MenuContent` | Lazy rendering wrapper (`ng-template`) |
-| `ScDropdownMenuProviderItem` | Component | `MenuItem` | Menu item with `value`, `inset`, `variant` |
-| `ScDropdownMenuProviderGroup` | Directive | none | Structural grouping (`role="group"`) |
-| `ScDropdownMenuProviderLabel` | Directive | none | Section label with optional `inset` |
-| `ScDropdownMenuProviderSeparator` | Directive | none | Visual separator (`role="separator"`) |
-| `ScDropdownMenuProviderShortcut` | Directive | none | Keyboard shortcut hint text |
+| `ScDropdownMenuTrigger` | Directive | `MenuTrigger` | Button/element that opens the menu |
+| `ScDropdownMenuPopover` | Directive | none | Captures `ng-template` TemplateRef for the overlay |
+| `ScDropdownMenu` | Component | `Menu` | Styled menu container |
+| `ScDropdownMenuContentTemplate` | Directive | `MenuContent` | Lazy rendering wrapper (`ng-template`) |
+| `ScDropdownMenuItem` | Component | `MenuItem` | Menu item with `value`, `inset`, `variant` |
+| `ScDropdownMenuGroup` | Directive | none | Structural grouping (`role="group"`) |
+| `ScDropdownMenuLabel` | Directive | none | Section label with optional `inset` |
+| `ScDropdownMenuSeparator` | Directive | none | Visual separator (`role="separator"`) |
+| `ScDropdownMenuShortcut` | Directive | none | Keyboard shortcut hint text |
 
 ## Known limitations
 
@@ -107,7 +107,7 @@ The consumer can override positions via the input:
   <button scDropdownMenuTrigger [menu]="menu()">Open</button>
 
   <ng-template scDropdownMenuPopover>
-    <div scDropdownMenuContent #menuRef="ngMenu" (onSelect)="handleSelect($event)">
+    <div scDropdownMenu #menuRef="ngMenu" (onSelect)="handleSelect($event)">
       <ng-template scDropdownMenuContentTemplate>
         <div scDropdownMenuLabel>Section</div>
         <div scDropdownMenuSeparator></div>
