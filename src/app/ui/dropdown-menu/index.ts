@@ -1,4 +1,4 @@
-export { ScDropdownMenu } from './dropdown-menu';
+export { ScDropdownMenuProvider } from './dropdown-menu-provider';
 export { ScDropdownMenuTrigger } from './dropdown-menu-trigger';
 export { ScDropdownMenuPopover } from './dropdown-menu-popover';
 export { ScDropdownMenuContent } from './dropdown-menu-content';

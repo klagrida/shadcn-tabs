@@ -5,7 +5,7 @@ import { MenuTrigger } from '@angular/aria/menu';
 import { ScDropdownMenuPopover } from './dropdown-menu-popover';
 
 @Component({
-  selector: 'sc-dropdown-menu',
+  selector: 'sc-dropdown-menu-provider',
   imports: [CdkConnectedOverlay, NgTemplateOutlet],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
@@ -28,7 +28,7 @@ import { ScDropdownMenuPopover } from './dropdown-menu-popover';
     }
   `,
 })
-export class ScDropdownMenu {
+export class ScDropdownMenuProvider {
   private readonly trigger = contentChild(MenuTrigger);
   private readonly popover = contentChild(ScDropdownMenuPopover);
 

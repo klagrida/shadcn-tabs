@@ -2,38 +2,38 @@
 
 ## Overview
 
-Shadcn-styled wrapper components around `@angular/aria/menu` directives. `ScDropdownMenu` is the root component that encapsulates `CdkConnectedOverlay` for overlay positioning and auto-flip.
+Shadcn-styled wrapper components around `@angular/aria/menu` directives. `ScDropdownMenuProvider` is the root component that encapsulates `CdkConnectedOverlay` for overlay positioning and auto-flip.
 
 ## Layer diagram
 
 ```
-ScDropdownMenu (root — manages CdkConnectedOverlay internally)
+ScDropdownMenuProvider (root — manages CdkConnectedOverlay internally)
   |
   |-- <ng-content /> (projects trigger)
-  |     |-- ScDropdownMenuTrigger   --> hostDirective: MenuTrigger
+  |     |-- ScDropdownMenuProviderTrigger   --> hostDirective: MenuTrigger
   |
   |-- CdkConnectedOverlay (internal, driven by trigger.expanded())
   |     |
-  |     |-- ScDropdownMenuPopover (ng-template directive, captures TemplateRef)
+  |     |-- ScDropdownMenuProviderPopover (ng-template directive, captures TemplateRef)
   |           |
-  |           |-- ScDropdownMenuContent      --> hostDirective: Menu
+  |           |-- ScDropdownMenuProviderContent      --> hostDirective: Menu
   |                 |
-  |                 |-- ScDropdownMenuContentTemplate --> hostDirective: MenuContent (deferred)
+  |                 |-- ScDropdownMenuProviderContentTemplate --> hostDirective: MenuContent (deferred)
   |                       |
-  |                       |-- ScDropdownMenuLabel
-  |                       |-- ScDropdownMenuSeparator
-  |                       |-- ScDropdownMenuGroup
-  |                       |     |-- ScDropdownMenuItem  --> hostDirective: MenuItem
-  |                       |           |-- ScDropdownMenuShortcut
+  |                       |-- ScDropdownMenuProviderLabel
+  |                       |-- ScDropdownMenuProviderSeparator
+  |                       |-- ScDropdownMenuProviderGroup
+  |                       |     |-- ScDropdownMenuProviderItem  --> hostDirective: MenuItem
+  |                       |           |-- ScDropdownMenuProviderShortcut
 ```
 
-## How ScDropdownMenu works
+## How ScDropdownMenuProvider works
 
-`ScDropdownMenu` is the root provider component (`display: contents`). It:
+`ScDropdownMenuProvider` is the root provider component (`display: contents`). It:
 
 1. Projects the trigger via `<ng-content />`
 2. Queries the `MenuTrigger` host directive via `contentChild(MenuTrigger)`
-3. Queries the `ScDropdownMenuPopover` template via `contentChild(ScDropdownMenuPopover)`
+3. Queries the `ScDropdownMenuProviderPopover` template via `contentChild(ScDropdownMenuProviderPopover)`
 4. Internally creates a `CdkConnectedOverlay` wired to:
    - `open` = `trigger.expanded()`
    - `origin` = `trigger.element`
@@ -66,7 +66,7 @@ readonly menu = viewChild(Menu);
 
 ### Overlay positioning & auto-flip
 
-`CdkConnectedOverlay` (inside `ScDropdownMenu`) handles:
+`CdkConnectedOverlay` (inside `ScDropdownMenuProvider`) handles:
 - Rendering menu content into a CDK overlay container
 - Positioning relative to the trigger element
 - **Auto-flip**: the `positions` array defines fallback positions. When below-start doesn't fit, it tries above-start, etc.
@@ -78,22 +78,22 @@ The consumer can override positions via the input:
 
 ### Deferred content
 
-`Menu` has `DeferredContentAware` as a host directive. `MenuContent` (wrapped by `ScDropdownMenuContentTemplate`) has `DeferredContent`. Together they lazily render menu items only when the menu becomes visible.
+`Menu` has `DeferredContentAware` as a host directive. `MenuContent` (wrapped by `ScDropdownMenuProviderContentTemplate`) has `DeferredContent`. Together they lazily render menu items only when the menu becomes visible.
 
 ## Component breakdown
 
 | Component | Type | Angular Aria directive | Purpose |
 |---|---|---|---|
-| `ScDropdownMenu` | Component | none | Root provider, manages CdkConnectedOverlay |
-| `ScDropdownMenuTrigger` | Directive | `MenuTrigger` | Button/element that opens the menu |
-| `ScDropdownMenuPopover` | Directive | none | Captures `ng-template` TemplateRef for the overlay |
-| `ScDropdownMenuContent` | Component | `Menu` | Styled menu container |
-| `ScDropdownMenuContentTemplate` | Directive | `MenuContent` | Lazy rendering wrapper (`ng-template`) |
-| `ScDropdownMenuItem` | Component | `MenuItem` | Menu item with `value`, `inset`, `variant` |
-| `ScDropdownMenuGroup` | Directive | none | Structural grouping (`role="group"`) |
-| `ScDropdownMenuLabel` | Directive | none | Section label with optional `inset` |
-| `ScDropdownMenuSeparator` | Directive | none | Visual separator (`role="separator"`) |
-| `ScDropdownMenuShortcut` | Directive | none | Keyboard shortcut hint text |
+| `ScDropdownMenuProvider` | Component | none | Root provider, manages CdkConnectedOverlay |
+| `ScDropdownMenuProviderTrigger` | Directive | `MenuTrigger` | Button/element that opens the menu |
+| `ScDropdownMenuProviderPopover` | Directive | none | Captures `ng-template` TemplateRef for the overlay |
+| `ScDropdownMenuProviderContent` | Component | `Menu` | Styled menu container |
+| `ScDropdownMenuProviderContentTemplate` | Directive | `MenuContent` | Lazy rendering wrapper (`ng-template`) |
+| `ScDropdownMenuProviderItem` | Component | `MenuItem` | Menu item with `value`, `inset`, `variant` |
+| `ScDropdownMenuProviderGroup` | Directive | none | Structural grouping (`role="group"`) |
+| `ScDropdownMenuProviderLabel` | Directive | none | Section label with optional `inset` |
+| `ScDropdownMenuProviderSeparator` | Directive | none | Visual separator (`role="separator"`) |
+| `ScDropdownMenuProviderShortcut` | Directive | none | Keyboard shortcut hint text |
 
 ## Known limitations
 
@@ -103,7 +103,7 @@ The consumer can override positions via the input:
 ## Consumer usage pattern
 
 ```html
-<sc-dropdown-menu>
+<sc-dropdown-menu-provider>
   <button scDropdownMenuTrigger [menu]="menu()">Open</button>
 
   <ng-template scDropdownMenuPopover>
@@ -118,7 +118,7 @@ The consumer can override positions via the input:
       </ng-template>
     </div>
   </ng-template>
-</sc-dropdown-menu>
+</sc-dropdown-menu-provider>
 ```
 
 ```typescript

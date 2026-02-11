@@ -1,38 +1,38 @@
 import { ChangeDetectionStrategy, Component, viewChild } from '@angular/core';
 import { Menu } from '@angular/aria/menu';
 import {
-  ScDropdownMenu,
-  ScDropdownMenuTrigger,
-  ScDropdownMenuPopover,
-  ScDropdownMenuContent,
-  ScDropdownMenuContentTemplate,
-  ScDropdownMenuItem,
-  ScDropdownMenuGroup,
-  ScDropdownMenuLabel,
-  ScDropdownMenuSeparator,
-  ScDropdownMenuShortcut,
+  ScDropdownMenuProvider,
+  ScDropdownMenuProviderTrigger,
+  ScDropdownMenuProviderPopover,
+  ScDropdownMenuProviderContent,
+  ScDropdownMenuProviderContentTemplate,
+  ScDropdownMenuProviderItem,
+  ScDropdownMenuProviderGroup,
+  ScDropdownMenuProviderLabel,
+  ScDropdownMenuProviderSeparator,
+  ScDropdownMenuProviderShortcut,
 } from './ui';
 
 @Component({
   selector: 'dropdown-menu-demo',
   imports: [
-    ScDropdownMenu,
-    ScDropdownMenuTrigger,
-    ScDropdownMenuPopover,
-    ScDropdownMenuContent,
-    ScDropdownMenuContentTemplate,
-    ScDropdownMenuItem,
-    ScDropdownMenuGroup,
-    ScDropdownMenuLabel,
-    ScDropdownMenuSeparator,
-    ScDropdownMenuShortcut,
+    ScDropdownMenuProvider,
+    ScDropdownMenuProviderTrigger,
+    ScDropdownMenuProviderPopover,
+    ScDropdownMenuProviderContent,
+    ScDropdownMenuProviderContentTemplate,
+    ScDropdownMenuProviderItem,
+    ScDropdownMenuProviderGroup,
+    ScDropdownMenuProviderLabel,
+    ScDropdownMenuProviderSeparator,
+    ScDropdownMenuProviderShortcut,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section>
       <h2 class="text-lg font-semibold mb-4">Dropdown Menu</h2>
 
-      <sc-dropdown-menu>
+      <sc-dropdown-menu-provider>
         <button
           scDropdownMenuTrigger
           [menu]="menu()"
@@ -73,7 +73,7 @@ import {
             </ng-template>
           </div>
         </ng-template>
-      </sc-dropdown-menu>
+      </sc-dropdown-menu-provider>
     </section>
   `,
 })
