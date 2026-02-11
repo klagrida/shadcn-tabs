@@ -11,6 +11,9 @@ import {
   ScDropdownMenuLabel,
   ScDropdownMenuSeparator,
   ScDropdownMenuShortcut,
+  ScDropdownMenuSubProvider,
+  ScDropdownMenuSubTrigger,
+  ScDropdownMenuSub,
 } from './ui';
 
 @Component({
@@ -26,6 +29,9 @@ import {
     ScDropdownMenuLabel,
     ScDropdownMenuSeparator,
     ScDropdownMenuShortcut,
+    ScDropdownMenuSubProvider,
+    ScDropdownMenuSubTrigger,
+    ScDropdownMenuSub,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -61,10 +67,24 @@ import {
                 </div>
               </div>
               <div scDropdownMenuSeparator></div>
-              <div scDropdownMenuGroup>
-                <div scDropdownMenuItem value="team">Team</div>
-                <div scDropdownMenuItem value="invite">Invite users</div>
-              </div>
+
+              <sc-dropdown-menu-sub-provider>
+                <div scDropdownMenuSubTrigger value="share" [submenu]="subMenu()">
+                  Share
+                  <svg class="ml-auto size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                </div>
+
+                <ng-template scDropdownMenuPortal>
+                  <div scDropdownMenuSub #subMenuRef="ngMenu">
+                    <ng-template scDropdownMenuContent>
+                      <div scDropdownMenuItem value="email">Email</div>
+                      <div scDropdownMenuItem value="message">Message</div>
+                      <div scDropdownMenuItem value="link">Copy Link</div>
+                    </ng-template>
+                  </div>
+                </ng-template>
+              </sc-dropdown-menu-sub-provider>
+
               <div scDropdownMenuSeparator></div>
               <div scDropdownMenuItem value="logout" variant="destructive">
                 Log out
@@ -79,6 +99,7 @@ import {
 })
 export class DropdownMenuDemo {
   readonly menu = viewChild(Menu);
+  readonly subMenu = viewChild('subMenuRef', { read: Menu });
 
   onSelect(value: string) {
     console.log('Selected:', value);

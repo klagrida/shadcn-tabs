@@ -8,3 +8,6 @@ export { ScDropdownMenuGroup } from './dropdown-menu-group';
 export { ScDropdownMenuLabel } from './dropdown-menu-label';
 export { ScDropdownMenuSeparator } from './dropdown-menu-separator';
 export { ScDropdownMenuShortcut } from './dropdown-menu-shortcut';
+export { ScDropdownMenuSubProvider } from './dropdown-menu-sub-provider';
+export { ScDropdownMenuSubTrigger } from './dropdown-menu-sub-trigger';
+export { ScDropdownMenuSub } from './dropdown-menu-sub';
