@@ -4,4 +4,7 @@ done => in the last time you did ==> using https://angular.dev/guide/aria/tabs a
 done  ==>  https://angular.dev/guide/aria/accordion and /home/khalil/workspace/shadcn-tabs/tsx/accordion.tsx
 
 
-now https://angular.dev/guide/aria/menu and /home/khalil/workspace/shadcn-tabs/tsx/dropdown-menu.tsx
+done ==> https://angular.dev/guide/aria/menu and /home/khalil/workspace/shadcn-tabs/tsx/dropdown-menu.tsx
+
+
+now ==> https://angular.dev/guide/aria/menubar and /home/khalil/workspace/shadcn-tabs/tsx/menubar.tsx
