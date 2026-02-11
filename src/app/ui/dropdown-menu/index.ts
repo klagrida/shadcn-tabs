@@ -1,7 +1,7 @@
 export { ScDropdownMenuProvider } from './dropdown-menu-provider';
 export { ScDropdownMenuTrigger } from './dropdown-menu-trigger';
 export { ScDropdownMenuPopover } from './dropdown-menu-popover';
-export { ScDropdownMenuContent } from './dropdown-menu-content';
+export { ScDropdownMenu } from './dropdown-menu';
 export { ScDropdownMenuContentTemplate } from './dropdown-menu-content-template';
 export { ScDropdownMenuItem } from './dropdown-menu-item';
 export { ScDropdownMenuGroup } from './dropdown-menu-group';

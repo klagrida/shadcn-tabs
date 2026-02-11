@@ -2,30 +2,30 @@ import { ChangeDetectionStrategy, Component, viewChild } from '@angular/core';
 import { Menu } from '@angular/aria/menu';
 import {
   ScDropdownMenuProvider,
-  ScDropdownMenuProviderTrigger,
-  ScDropdownMenuProviderPopover,
-  ScDropdownMenuProviderContent,
-  ScDropdownMenuProviderContentTemplate,
-  ScDropdownMenuProviderItem,
-  ScDropdownMenuProviderGroup,
-  ScDropdownMenuProviderLabel,
-  ScDropdownMenuProviderSeparator,
-  ScDropdownMenuProviderShortcut,
+  ScDropdownMenuTrigger,
+  ScDropdownMenuPopover,
+  ScDropdownMenu,
+  ScDropdownMenuContentTemplate,
+  ScDropdownMenuItem,
+  ScDropdownMenuGroup,
+  ScDropdownMenuLabel,
+  ScDropdownMenuSeparator,
+  ScDropdownMenuShortcut,
 } from './ui';
 
 @Component({
   selector: 'dropdown-menu-demo',
   imports: [
     ScDropdownMenuProvider,
-    ScDropdownMenuProviderTrigger,
-    ScDropdownMenuProviderPopover,
-    ScDropdownMenuProviderContent,
-    ScDropdownMenuProviderContentTemplate,
-    ScDropdownMenuProviderItem,
-    ScDropdownMenuProviderGroup,
-    ScDropdownMenuProviderLabel,
-    ScDropdownMenuProviderSeparator,
-    ScDropdownMenuProviderShortcut,
+    ScDropdownMenuTrigger,
+    ScDropdownMenuPopover,
+    ScDropdownMenu,
+    ScDropdownMenuContentTemplate,
+    ScDropdownMenuItem,
+    ScDropdownMenuGroup,
+    ScDropdownMenuLabel,
+    ScDropdownMenuSeparator,
+    ScDropdownMenuShortcut,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -42,7 +42,7 @@ import {
         </button>
 
         <ng-template scDropdownMenuPopover>
-          <div scDropdownMenuContent #menuRef="ngMenu" (onSelect)="onSelect($event)">
+          <div scDropdownMenu #menuRef="ngMenu" (onSelect)="onSelect($event)">
             <ng-template scDropdownMenuContentTemplate>
               <div scDropdownMenuLabel>My Account</div>
               <div scDropdownMenuSeparator></div>

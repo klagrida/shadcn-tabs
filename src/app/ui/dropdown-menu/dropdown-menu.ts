@@ -3,7 +3,7 @@ import { Menu } from '@angular/aria/menu';
 import { cn } from '../../utils';
 
 @Component({
-  selector: '[scDropdownMenuContent]',
+  selector: '[scDropdownMenu]',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   hostDirectives: [
@@ -19,7 +19,7 @@ import { cn } from '../../utils';
   },
   template: `<ng-content />`,
 })
-export class ScDropdownMenuContent {
+export class ScDropdownMenu {
   readonly classInput = input<string>('', { alias: 'class' });
   readonly class = computed(() =>
     cn(
