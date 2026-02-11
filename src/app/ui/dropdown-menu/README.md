@@ -122,7 +122,22 @@ readonly subMenu = viewChild('subMenuRef', { read: Menu });
 
 `Menu` has `DeferredContentAware` as a host directive. `MenuContent` (wrapped by `ScDropdownMenuContent`) has `DeferredContent`. Together they lazily render menu items only when the menu becomes visible.
 
-### Shared styles
+## Angular Aria data attributes
+
+Angular Aria's `Menu` and `MenuItem` directives set data attributes on host elements for styling:
+
+| Attribute | Set by | Values | Purpose |
+|---|---|---|---|
+| `data-visible` | `Menu` | `'true'` / `'false'` | Whether the menu content is visible |
+| `data-active` | `MenuItem` | `'true'` / absent | Item is highlighted via hover or keyboard navigation |
+| `aria-expanded` | `MenuItem` | `'true'` / `'false'` | Item has an expanded submenu |
+
+### Styling hooks
+
+- **`data-[visible=false]:hidden`** — applied on `ScDropdownMenu` and `ScDropdownMenuSub` to hide the styled container when the menu is not visible (prevents empty box with shadow/ring from showing)
+- **`data-[active=true]:bg-accent`** — applied on `ScDropdownMenuItem` and `ScDropdownMenuSubTrigger` (via `dropdownMenuItemBaseStyles`) for hover/keyboard highlight
+
+## Shared styles
 
 `dropdownMenuItemBaseStyles` is exported from `dropdown-menu-item.ts` and reused by `ScDropdownMenuSubTrigger`, which adds `data-open:bg-accent data-open:text-accent-foreground` on top.
 
@@ -133,7 +148,7 @@ readonly subMenu = viewChild('subMenuRef', { read: Menu });
 | `ScDropdownMenuProvider` | Component | — | Root provider, manages CdkConnectedOverlay |
 | `ScDropdownMenuTrigger` | Directive | `MenuTrigger` | Button/element that opens the menu |
 | `ScDropdownMenuPortal` | Directive | — | Captures `ng-template` TemplateRef for the overlay |
-| `ScDropdownMenu` | Component | `Menu` | Styled menu container |
+| `ScDropdownMenu` | Component | `Menu` | Styled menu container, hidden when `data-visible=false` |
 | `ScDropdownMenuContent` | Directive | `MenuContent` | Lazy rendering wrapper (`ng-template`) |
 | `ScDropdownMenuItem` | Component | `MenuItem` | Menu item with `value`, `inset`, `variant` |
 | `ScDropdownMenuGroup` | Directive | — | Structural grouping (`role="group"`) |
@@ -142,7 +157,7 @@ readonly subMenu = viewChild('subMenuRef', { read: Menu });
 | `ScDropdownMenuShortcut` | Directive | — | Keyboard shortcut hint text |
 | `ScDropdownMenuSubProvider` | Component | — | Submenu wrapper, manages CdkConnectedOverlay |
 | `ScDropdownMenuSubTrigger` | Component | `MenuItem` | Submenu trigger item, styles from `dropdownMenuItemBaseStyles` |
-| `ScDropdownMenuSub` | Component | `Menu` | Styled submenu container |
+| `ScDropdownMenuSub` | Component | `Menu` | Styled submenu container, hidden when `data-visible=false` |
 
 ## Known limitations
 
