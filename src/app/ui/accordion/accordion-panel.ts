@@ -16,13 +16,9 @@ import { cn } from '../../utils';
     'data-slot': 'accordion-content',
     '[class]': 'class()',
   },
-  template: `
-    <div class="pt-0 pb-2.5">
-      <ng-content />
-    </div>
-  `,
+  template: `<ng-content />`,
 })
 export class ScAccordionPanel {
   readonly classInput = input<string>('', { alias: 'class' });
-  readonly class = computed(() => cn('text-sm [&[inert]]:hidden', this.classInput()));
+  readonly class = computed(() => cn('text-sm', this.classInput()));
 }
