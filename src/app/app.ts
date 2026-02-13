@@ -28,5 +28,6 @@ export class App {
     { path: '/accordion', label: 'Accordion' },
     { path: '/dropdown-menu', label: 'Dropdown Menu' },
     { path: '/menubar', label: 'Menubar' },
+    { path: '/select', label: 'Select' },
   ];
 }
