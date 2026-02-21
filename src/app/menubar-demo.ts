@@ -1,19 +1,17 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MenuBar } from '@angular/aria/menu';
 import { ScMenu, ScMenuContent, ScMenuItem, ScMenuPortal, ScMenuSeparator } from './menu';
 import { ScMenuBarItem, ScMenuBar } from './ui/menu-bar';
 
 @Component({
   selector: 'menubar-demo',
   imports: [
-    MenuBar,
+    ScMenuBar,
     ScMenuBarItem,
     ScMenu,
     ScMenuContent,
     ScMenuItem,
     ScMenuPortal,
     ScMenuSeparator,
-    ScMenuBar,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
