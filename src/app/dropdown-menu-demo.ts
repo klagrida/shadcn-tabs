@@ -1,16 +1,17 @@
 import { ChangeDetectionStrategy, Component, viewChild } from '@angular/core';
 import { Menu, MenuContent, MenuItem, MenuTrigger } from '@angular/aria/menu';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { ScMenuProvider } from './menu';
 
 @Component({
   selector: 'dropdown-menu-demo',
-  imports: [Menu, MenuContent, MenuItem, MenuTrigger, OverlayModule],
+  imports: [Menu, MenuContent, MenuItem, MenuTrigger, OverlayModule, ScMenuProvider],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'flex justify-center font-sans',
   },
   template: `
-    <div>
+    <div sc-menu-provider>
       <button
         ngMenuTrigger
         #origin
@@ -160,12 +161,6 @@ import { OverlayModule } from '@angular/cdk/overlay';
         </div>
       </ng-template>
     </div>
-  `,
-  styles: `
-    @import url('https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined');
-    .material-symbols-outlined {
-      font-size: inherit;
-    }
   `,
 })
 export class DropdownMenuDemo {
