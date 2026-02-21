@@ -60,7 +60,7 @@ export class ScMenuProvider {
     () => this.triggerChild()?.trigger?.expanded() ?? false,
   );
 
-  protected readonly class = computed(() => cn('relative', this.classInput()));
+  protected readonly class = computed(() => cn('contents', this.classInput()));
 
   constructor() {
     // Auto-connect trigger to menu
