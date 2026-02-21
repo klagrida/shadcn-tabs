@@ -75,9 +75,7 @@ import {
             <div
               scMenuItem
               value="Categorize"
-              #categorizeItem="scMenuItem"
               [submenu]="categorizeMenu()?.menu"
-              [submenuConfig]="{ origin: categorizeItem.overlayOrigin, usePopover: 'inline' }"
               [submenuPositions]="[
                 {
                   originX: 'end',

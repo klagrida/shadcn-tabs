@@ -10,7 +10,6 @@ import {
 import { NgTemplateOutlet } from '@angular/common';
 import {
   CdkOverlayOrigin,
-  type CdkConnectedOverlayConfig,
   type ConnectedPosition,
   OverlayModule,
 } from '@angular/cdk/overlay';
@@ -35,7 +34,7 @@ import { ScMenuSubmenuPortal } from './menu-submenu-portal';
     @if (submenuPortal(); as portal) {
       <ng-template
         [cdkConnectedOverlayOpen]="submenuOpen()"
-        [cdkConnectedOverlay]="submenuConfig()"
+        [cdkConnectedOverlay]="{ origin: overlayOrigin, usePopover: 'inline' }"
         [cdkConnectedOverlayPositions]="submenuPositions()"
         cdkAttachPopoverAsChild
       >
@@ -54,7 +53,6 @@ export class ScMenuItem {
   readonly overlayOrigin = inject(CdkOverlayOrigin);
   private readonly parentMenu = inject(Menu);
   protected readonly submenuOpen = computed(() => this.parentMenu.visible());
-  readonly submenuConfig = input<CdkConnectedOverlayConfig>({});
   readonly submenuPositions = input<ConnectedPosition[]>([]);
   protected readonly submenuPortal = contentChild(ScMenuSubmenuPortal);
 }
