@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, viewChild } from '@angular/core';
-import { Menu, MenuContent, MenuItem } from '@angular/aria/menu';
+import { MenuContent, MenuItem } from '@angular/aria/menu';
+
 import { OverlayModule } from '@angular/cdk/overlay';
-import { ScMenuPortal, ScMenuProvider, ScMenuTrigger } from './menu';
+import { ScMenu, ScMenuPortal, ScMenuProvider, ScMenuTrigger } from './menu';
 
 @Component({
   selector: 'dropdown-menu-demo',
-  imports: [Menu, MenuContent, MenuItem, OverlayModule, ScMenuPortal, ScMenuProvider, ScMenuTrigger],
+  imports: [MenuContent, MenuItem, OverlayModule, ScMenu, ScMenuPortal, ScMenuProvider, ScMenuTrigger],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'flex justify-center font-sans',
@@ -16,16 +17,12 @@ import { ScMenuPortal, ScMenuProvider, ScMenuTrigger } from './menu';
         scMenuTrigger
         #origin
         #trigger="scMenuTrigger"
-        [menu]="formatMenu()"
+        [menu]="formatMenu()?.menuRef"
       >
         Open Menu
       </button>
       <ng-template [scMenuPortal]="origin" [open]="trigger.expanded()">
-        <div
-          ngMenu
-          #formatMenu="ngMenu"
-          class="bg-popover text-popover-foreground min-w-32 w-[15rem] rounded-lg p-1 shadow-md ring-1 ring-foreground/10 z-50 overflow-x-hidden overflow-y-auto data-[visible=false]:hidden"
-        >
+        <div scMenu #formatMenu="scMenu">
           <ng-template ngMenuContent>
             <div
               ngMenuItem
@@ -48,7 +45,7 @@ import { ScMenuPortal, ScMenuProvider, ScMenuTrigger } from './menu';
               ngMenuItem
               value="Categorize"
               #categorizeItem
-              [submenu]="categorizeMenu()"
+              [submenu]="categorizeMenu()?.menuRef"
               class="data-[active=true]:bg-accent data-[active=true]:text-accent-foreground data-[expanded=true]:bg-accent data-[expanded=true]:text-accent-foreground gap-1.5 rounded-md px-1.5 py-1 text-sm relative flex cursor-default items-center outline-hidden select-none focus-visible:outline-2 focus-visible:outline-ring"
             >
               <svg class="size-4 opacity-75" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
@@ -69,11 +66,7 @@ import { ScMenuPortal, ScMenuProvider, ScMenuTrigger } from './menu';
                 ]"
                 cdkAttachPopoverAsChild
               >
-                <div
-                  ngMenu
-                  #categorizeMenu="ngMenu"
-                  class="bg-popover text-popover-foreground min-w-32 w-[15rem] rounded-lg p-1 shadow-md ring-1 ring-foreground/10 z-50 overflow-x-hidden overflow-y-auto data-[visible=false]:hidden"
-                >
+                <div scMenu #categorizeMenu="scMenu">
                   <ng-template ngMenuContent>
                     <div
                       ngMenuItem
@@ -136,6 +129,6 @@ import { ScMenuPortal, ScMenuProvider, ScMenuTrigger } from './menu';
   `,
 })
 export class DropdownMenuDemo {
-  formatMenu = viewChild<Menu<string>>('formatMenu');
-  categorizeMenu = viewChild<Menu<string>>('categorizeMenu');
+  formatMenu = viewChild<ScMenu<string>>('formatMenu');
+  categorizeMenu = viewChild<ScMenu<string>>('categorizeMenu');
 }
