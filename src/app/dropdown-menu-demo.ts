@@ -1,12 +1,10 @@
 import { ChangeDetectionStrategy, Component, viewChild } from '@angular/core';
-import { MenuContent } from '@angular/aria/menu';
-
 import { OverlayModule } from '@angular/cdk/overlay';
-import { ScMenu, ScMenuItem, ScMenuPortal, ScMenuProvider, ScMenuSeparator, ScMenuTrigger } from './menu';
+import { ScMenu, ScMenuContent, ScMenuItem, ScMenuPortal, ScMenuProvider, ScMenuSeparator, ScMenuTrigger } from './menu';
 
 @Component({
   selector: 'dropdown-menu-demo',
-  imports: [MenuContent, OverlayModule, ScMenu, ScMenuItem, ScMenuPortal, ScMenuProvider, ScMenuSeparator, ScMenuTrigger],
+  imports: [OverlayModule, ScMenu, ScMenuContent, ScMenuItem, ScMenuPortal, ScMenuProvider, ScMenuSeparator, ScMenuTrigger],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'flex justify-center font-sans',
@@ -23,7 +21,7 @@ import { ScMenu, ScMenuItem, ScMenuPortal, ScMenuProvider, ScMenuSeparator, ScMe
       </button>
       <ng-template [scMenuPortal]="origin" [open]="trigger.expanded()">
         <div scMenu #formatMenu="scMenu">
-          <ng-template ngMenuContent>
+          <ng-template scMenuContent>
             <div
               scMenuItem
               value="Mark as read"
@@ -64,7 +62,7 @@ import { ScMenu, ScMenuItem, ScMenuPortal, ScMenuProvider, ScMenuSeparator, ScMe
                 cdkAttachPopoverAsChild
               >
                 <div scMenu #categorizeMenu="scMenu">
-                  <ng-template ngMenuContent>
+                  <ng-template scMenuContent>
                     <div
                       scMenuItem
                       value="Mark as important"
