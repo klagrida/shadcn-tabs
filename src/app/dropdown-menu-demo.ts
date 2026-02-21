@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, viewChild } from '@angular/core';
 import { Menu, MenuContent, MenuItem } from '@angular/aria/menu';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { ScMenuProvider, ScMenuTrigger } from './menu';
+import { ScMenuPortal, ScMenuProvider, ScMenuTrigger } from './menu';
 
 @Component({
   selector: 'dropdown-menu-demo',
-  imports: [Menu, MenuContent, MenuItem, OverlayModule, ScMenuProvider, ScMenuTrigger],
+  imports: [Menu, MenuContent, MenuItem, OverlayModule, ScMenuPortal, ScMenuProvider, ScMenuTrigger],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'flex justify-center font-sans',
@@ -20,14 +20,7 @@ import { ScMenuProvider, ScMenuTrigger } from './menu';
       >
         Open Menu
       </button>
-      <ng-template
-        [cdkConnectedOverlayOpen]="trigger.expanded()"
-        [cdkConnectedOverlay]="{ origin, usePopover: 'inline' }"
-        [cdkConnectedOverlayPositions]="[
-          { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top', offsetY: 4 },
-        ]"
-        cdkAttachPopoverAsChild
-      >
+      <ng-template [scMenuPortal]="origin" [open]="trigger.expanded()">
         <div
           ngMenu
           #formatMenu="ngMenu"
