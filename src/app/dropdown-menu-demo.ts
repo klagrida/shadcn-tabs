@@ -6,7 +6,6 @@ import {
   ScMenuPortal,
   ScMenuProvider,
   ScMenuSeparator,
-  ScMenuSubmenuPortal,
   ScMenuTrigger,
 } from './menu';
 
@@ -19,7 +18,6 @@ import {
     ScMenuPortal,
     ScMenuProvider,
     ScMenuSeparator,
-    ScMenuSubmenuPortal,
     ScMenuTrigger,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -102,7 +100,7 @@ import {
                 <path d="m9 18 6-6-6-6" />
               </svg>
 
-              <ng-template scMenuSubmenuPortal>
+              <ng-template scMenuPortal>
                 <div scMenu>
                   <ng-template scMenuContent>
                     <div scMenuItem value="Mark as important">

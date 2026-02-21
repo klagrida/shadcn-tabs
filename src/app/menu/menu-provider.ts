@@ -12,7 +12,6 @@ import {
 import { SIGNAL, signalSetFn } from '@angular/core/primitives/signals';
 import { cn } from '../utils';
 import { ScMenuTrigger } from './menu-trigger';
-import { ScMenu } from './menu';
 import { ScMenuPortal } from './menu-portal';
 
 @Component({
@@ -51,12 +50,11 @@ export class ScMenuProvider {
   readonly classInput = input<string>('', { alias: 'class' });
 
   private readonly triggerChild = contentChild(ScMenuTrigger);
-  private readonly content = contentChild(ScMenu, { descendants: true });
   protected readonly menuPortal = contentChild.required(ScMenuPortal);
 
   readonly origin = computed(() => this.triggerChild()?.overlayOrigin);
   readonly trigger = computed(() => this.triggerChild()?.trigger);
-  readonly menu = computed(() => this.content()?.menu);
+  readonly menu = computed(() => this.menuPortal()?.menu());
 
   protected readonly expanded = computed(
     () => this.triggerChild()?.trigger?.expanded() ?? false,
@@ -68,7 +66,7 @@ export class ScMenuProvider {
     // Auto-connect trigger to menu
     effect(() => {
       const trigger = this.triggerChild()?.trigger;
-      const menu = this.content()?.menu;
+      const menu = this.menuPortal()?.menu();
       if (trigger && menu) {
         signalSetFn(trigger.menu[SIGNAL], menu);
       }

@@ -1,6 +1,6 @@
 import { Directive, inject } from '@angular/core';
 import { Menu } from '@angular/aria/menu';
-import { ScMenuSubmenuPortal } from './menu-submenu-portal';
+import { ScMenuPortal } from './menu-portal';
 
 @Directive({
   selector: '[scMenu]',
@@ -22,7 +22,7 @@ export class ScMenu<V = string> {
   readonly visible = this.menu.visible;
 
   constructor() {
-    const portal = inject(ScMenuSubmenuPortal, { optional: true });
+    const portal = inject(ScMenuPortal, { optional: true });
     portal?.menu.set(this.menu as Menu<unknown>);
   }
 }

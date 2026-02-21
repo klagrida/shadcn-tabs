@@ -14,7 +14,7 @@ import {
 } from '@angular/cdk/overlay';
 import { Menu, MenuItem } from '@angular/aria/menu';
 import { SIGNAL, signalSetFn } from '@angular/core/primitives/signals';
-import { ScMenuSubmenuPortal } from './menu-submenu-portal';
+import { ScMenuPortal } from './menu-portal';
 
 @Component({
   selector: '[scMenuItem]',
@@ -62,7 +62,7 @@ export class ScMenuItem {
   private readonly menuItem = inject(MenuItem);
   private readonly parentMenu = inject(Menu);
   protected readonly submenuOpen = computed(() => this.parentMenu.visible());
-  protected readonly submenuPortal = contentChild(ScMenuSubmenuPortal);
+  protected readonly submenuPortal = contentChild(ScMenuPortal);
 
   constructor() {
     // Auto-connect submenu when ScMenu registers itself with the portal
