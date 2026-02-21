@@ -30,5 +30,6 @@ export class App {
     { path: '/menu', label: 'Menu' },
     { path: '/menubar', label: 'Menubar' },
     { path: '/select', label: 'Select' },
+    { path: '/multiselect', label: 'Multiselect' },
   ];
 }
