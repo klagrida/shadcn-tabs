@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component, viewChild } from '@angular/core';
-import { OverlayModule } from '@angular/cdk/overlay';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   ScMenu,
   ScMenuContent,
@@ -14,7 +13,6 @@ import {
 @Component({
   selector: 'dropdown-menu-demo',
   imports: [
-    OverlayModule,
     ScMenu,
     ScMenuContent,
     ScMenuItem,
@@ -34,7 +32,7 @@ import {
         Open Menu
       </button>
       <ng-template scMenuPortal>
-        <div scMenu #formatMenu="scMenu">
+        <div scMenu>
           <ng-template scMenuContent>
             <div scMenuItem value="Mark as read">
               <svg
@@ -72,11 +70,7 @@ import {
               <span class="flex-1 text-sm opacity-90">Snooze</span>
             </div>
             <div scMenuSeparator></div>
-            <div
-              scMenuItem
-              value="Categorize"
-              [submenu]="categorizeMenu()?.menu"
-            >
+            <div scMenuItem value="Categorize">
               <svg
                 class="size-4 opacity-75"
                 aria-hidden="true"
@@ -109,7 +103,7 @@ import {
               </svg>
 
               <ng-template scMenuSubmenuPortal>
-                <div scMenu #categorizeMenu="scMenu">
+                <div scMenu>
                   <ng-template scMenuContent>
                     <div scMenuItem value="Mark as important">
                       <svg
@@ -236,7 +230,4 @@ import {
     </div>
   `,
 })
-export class DropdownMenuDemo {
-  formatMenu = viewChild<ScMenu<string>>('formatMenu');
-  categorizeMenu = viewChild<ScMenu<string>>('categorizeMenu');
-}
+export class DropdownMenuDemo {}

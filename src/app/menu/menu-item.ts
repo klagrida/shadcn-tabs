@@ -3,6 +3,7 @@ import {
   Component,
   computed,
   contentChild,
+  effect,
   inject,
   ViewEncapsulation,
 } from '@angular/core';
@@ -12,6 +13,7 @@ import {
   OverlayModule,
 } from '@angular/cdk/overlay';
 import { Menu, MenuItem } from '@angular/aria/menu';
+import { SIGNAL, signalSetFn } from '@angular/core/primitives/signals';
 import { ScMenuSubmenuPortal } from './menu-submenu-portal';
 
 @Component({
@@ -21,7 +23,7 @@ import { ScMenuSubmenuPortal } from './menu-submenu-portal';
   hostDirectives: [
     {
       directive: MenuItem,
-      inputs: ['id', 'value', 'disabled', 'searchTerm', 'submenu'],
+      inputs: ['id', 'value', 'disabled', 'searchTerm'],
       outputs: ['searchTermChange'],
     },
     CdkOverlayOrigin,
@@ -57,7 +59,18 @@ import { ScMenuSubmenuPortal } from './menu-submenu-portal';
 })
 export class ScMenuItem {
   readonly overlayOrigin = inject(CdkOverlayOrigin);
+  private readonly menuItem = inject(MenuItem);
   private readonly parentMenu = inject(Menu);
   protected readonly submenuOpen = computed(() => this.parentMenu.visible());
   protected readonly submenuPortal = contentChild(ScMenuSubmenuPortal);
+
+  constructor() {
+    // Auto-connect submenu when ScMenu registers itself with the portal
+    effect(() => {
+      const menu = this.submenuPortal()?.menu();
+      if (menu) {
+        signalSetFn(this.menuItem.submenu[SIGNAL], menu);
+      }
+    });
+  }
 }
