@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: '[sc-menu-provider]',
+  selector: '[scMenuProvider]',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<ng-content />`,
 })

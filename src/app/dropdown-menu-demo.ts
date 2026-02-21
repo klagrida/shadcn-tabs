@@ -1,23 +1,22 @@
 import { ChangeDetectionStrategy, Component, viewChild } from '@angular/core';
-import { Menu, MenuContent, MenuItem, MenuTrigger } from '@angular/aria/menu';
+import { Menu, MenuContent, MenuItem } from '@angular/aria/menu';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { ScMenuProvider } from './menu';
+import { ScMenuProvider, ScMenuTrigger } from './menu';
 
 @Component({
   selector: 'dropdown-menu-demo',
-  imports: [Menu, MenuContent, MenuItem, MenuTrigger, OverlayModule, ScMenuProvider],
+  imports: [Menu, MenuContent, MenuItem, OverlayModule, ScMenuProvider, ScMenuTrigger],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'flex justify-center font-sans',
   },
   template: `
-    <div sc-menu-provider>
+    <div scMenuProvider>
       <button
-        ngMenuTrigger
+        scMenuTrigger
         #origin
-        #trigger="ngMenuTrigger"
+        #trigger="scMenuTrigger"
         [menu]="formatMenu()"
-        class="inline-flex cursor-pointer items-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium shadow-sm hover:bg-accent hover:text-accent-foreground focus-visible:outline-2 focus-visible:outline-ring"
       >
         Open Menu
       </button>
