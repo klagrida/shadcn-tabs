@@ -77,7 +77,6 @@ import {
               value="Categorize"
               #categorizeItem="scMenuItem"
               [submenu]="categorizeMenu()?.menu"
-              [submenuOpen]="formatMenu.visible()"
               [submenuConfig]="{ origin: categorizeItem.overlayOrigin, usePopover: 'inline' }"
               [submenuPositions]="[
                 {

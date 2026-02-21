@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   contentChild,
   inject,
   input,
@@ -13,7 +14,7 @@ import {
   type ConnectedPosition,
   OverlayModule,
 } from '@angular/cdk/overlay';
-import { MenuItem } from '@angular/aria/menu';
+import { Menu, MenuItem } from '@angular/aria/menu';
 import { ScMenuSubmenuPortal } from './menu-submenu-portal';
 
 @Component({
@@ -51,7 +52,8 @@ import { ScMenuSubmenuPortal } from './menu-submenu-portal';
 })
 export class ScMenuItem {
   readonly overlayOrigin = inject(CdkOverlayOrigin);
-  readonly submenuOpen = input(false);
+  private readonly parentMenu = inject(Menu);
+  protected readonly submenuOpen = computed(() => this.parentMenu.visible());
   readonly submenuConfig = input<CdkConnectedOverlayConfig>({});
   readonly submenuPositions = input<ConnectedPosition[]>([]);
   protected readonly submenuPortal = contentChild(ScMenuSubmenuPortal);
