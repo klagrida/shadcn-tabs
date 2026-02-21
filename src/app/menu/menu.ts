@@ -17,6 +17,6 @@ import { Menu } from '@angular/aria/menu';
   },
 })
 export class ScMenu<V = string> {
-  readonly menuRef = inject<Menu<V>>(Menu);
-  readonly visible = this.menuRef.visible;
+  readonly menu = inject<Menu<V>>(Menu);
+  readonly visible = this.menu.visible;
 }

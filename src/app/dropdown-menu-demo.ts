@@ -30,10 +30,10 @@ import {
   },
   template: `
     <div scMenuProvider>
-      <button scMenuTrigger #origin #trigger="scMenuTrigger" [menu]="formatMenu()?.menuRef">
+      <button scMenuTrigger>
         Open Menu
       </button>
-      <ng-template [scMenuPortal]="origin" [open]="trigger.expanded()">
+      <ng-template scMenuPortal>
         <div scMenu #formatMenu="scMenu">
           <ng-template scMenuContent>
             <div scMenuItem value="Mark as read">
@@ -76,7 +76,7 @@ import {
               scMenuItem
               value="Categorize"
               #categorizeItem
-              [submenu]="categorizeMenu()?.menuRef"
+              [submenu]="categorizeMenu()?.menu"
             >
               <svg
                 class="size-4 opacity-75"

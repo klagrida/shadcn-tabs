@@ -1,4 +1,5 @@
 import { Directive, inject } from '@angular/core';
+import { CdkOverlayOrigin } from '@angular/cdk/overlay';
 import { MenuTrigger } from '@angular/aria/menu';
 
 @Directive({
@@ -7,8 +8,8 @@ import { MenuTrigger } from '@angular/aria/menu';
   hostDirectives: [
     {
       directive: MenuTrigger,
-      inputs: ['menu'],
     },
+    CdkOverlayOrigin,
   ],
   host: {
     class:
@@ -16,6 +17,7 @@ import { MenuTrigger } from '@angular/aria/menu';
   },
 })
 export class ScMenuTrigger {
-  private readonly menuTrigger = inject(MenuTrigger);
-  readonly expanded = this.menuTrigger.expanded;
+  readonly trigger = inject(MenuTrigger);
+  readonly overlayOrigin = inject(CdkOverlayOrigin);
+  readonly expanded = this.trigger.expanded;
 }
