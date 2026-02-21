@@ -2,11 +2,11 @@ import { ChangeDetectionStrategy, Component, viewChild } from '@angular/core';
 import { MenuContent } from '@angular/aria/menu';
 
 import { OverlayModule } from '@angular/cdk/overlay';
-import { ScMenu, ScMenuItem, ScMenuPortal, ScMenuProvider, ScMenuTrigger } from './menu';
+import { ScMenu, ScMenuItem, ScMenuPortal, ScMenuProvider, ScMenuSeparator, ScMenuTrigger } from './menu';
 
 @Component({
   selector: 'dropdown-menu-demo',
-  imports: [MenuContent, OverlayModule, ScMenu, ScMenuItem, ScMenuPortal, ScMenuProvider, ScMenuTrigger],
+  imports: [MenuContent, OverlayModule, ScMenu, ScMenuItem, ScMenuPortal, ScMenuProvider, ScMenuSeparator, ScMenuTrigger],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'flex justify-center font-sans',
@@ -38,7 +38,7 @@ import { ScMenu, ScMenuItem, ScMenuPortal, ScMenuProvider, ScMenuTrigger } from 
               <svg class="size-4 opacity-75" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               <span class="flex-1 text-sm opacity-90">Snooze</span>
             </div>
-            <div role="separator" aria-orientation="horizontal" class="bg-border -mx-1 my-1 h-px"></div>
+            <div scMenuSeparator></div>
             <div
               scMenuItem
               value="Categorize"
@@ -91,7 +91,7 @@ import { ScMenu, ScMenuItem, ScMenuPortal, ScMenuProvider, ScMenuTrigger } from 
               </ng-template>
             </div>
 
-            <div role="separator" aria-orientation="horizontal" class="bg-border -mx-1 my-1 h-px"></div>
+            <div scMenuSeparator></div>
             <div
               scMenuItem
               value="Archive"
