@@ -76,15 +76,6 @@ import {
               scMenuItem
               value="Categorize"
               [submenu]="categorizeMenu()?.menu"
-              [submenuPositions]="[
-                {
-                  originX: 'end',
-                  originY: 'top',
-                  overlayY: 'top',
-                  overlayX: 'start',
-                  offsetX: 6,
-                },
-              ]"
             >
               <svg
                 class="size-4 opacity-75"
