@@ -75,7 +75,7 @@ import {
             <div
               scMenuItem
               value="Categorize"
-              #categorizeItem
+              #categorizeItem="scMenuItem"
               [submenu]="categorizeMenu()?.menu"
             >
               <svg
@@ -112,7 +112,7 @@ import {
               <ng-template
                 scMenuSubmenuPortal
                 [open]="formatMenu.visible()"
-                [config]="{ origin: categorizeItem, usePopover: 'inline' }"
+                [config]="{ origin: categorizeItem.overlayOrigin, usePopover: 'inline' }"
                 [positions]="[
                   {
                     originX: 'end',
