@@ -77,6 +77,17 @@ import {
               value="Categorize"
               #categorizeItem="scMenuItem"
               [submenu]="categorizeMenu()?.menu"
+              [submenuOpen]="formatMenu.visible()"
+              [submenuConfig]="{ origin: categorizeItem.overlayOrigin, usePopover: 'inline' }"
+              [submenuPositions]="[
+                {
+                  originX: 'end',
+                  originY: 'top',
+                  overlayY: 'top',
+                  overlayX: 'start',
+                  offsetX: 6,
+                },
+              ]"
             >
               <svg
                 class="size-4 opacity-75"
@@ -109,20 +120,7 @@ import {
                 <path d="m9 18 6-6-6-6" />
               </svg>
 
-              <ng-template
-                scMenuSubmenuPortal
-                [open]="formatMenu.visible()"
-                [config]="{ origin: categorizeItem.overlayOrigin, usePopover: 'inline' }"
-                [positions]="[
-                  {
-                    originX: 'end',
-                    originY: 'top',
-                    overlayY: 'top',
-                    overlayX: 'start',
-                    offsetX: 6,
-                  },
-                ]"
-              >
+              <ng-template scMenuSubmenuPortal>
                 <div scMenu #categorizeMenu="scMenu">
                   <ng-template scMenuContent>
                     <div scMenuItem value="Mark as important">

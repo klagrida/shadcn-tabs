@@ -1,17 +1,8 @@
-import { Directive } from '@angular/core';
-import { CdkConnectedOverlay } from '@angular/cdk/overlay';
+import { Directive, inject, TemplateRef } from '@angular/core';
 
 @Directive({
   selector: '[scMenuSubmenuPortal]',
-  hostDirectives: [
-    {
-      directive: CdkConnectedOverlay,
-      inputs: [
-        'cdkConnectedOverlayOpen: open',
-        'cdkConnectedOverlay: config',
-        'cdkConnectedOverlayPositions: positions',
-      ],
-    },
-  ],
 })
-export class ScMenuSubmenuPortal {}
+export class ScMenuSubmenuPortal {
+  readonly templateRef = inject(TemplateRef);
+}
