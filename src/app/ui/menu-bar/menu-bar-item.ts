@@ -49,7 +49,7 @@ import { ScMenuPortal } from '../../menu/menu-portal';
     }
   `,
   host: {
-    'data-slot': 'menubar-item',
+    'data-slot': 'menu-bar-item',
     '[class]': 'class()',
   },
   encapsulation: ViewEncapsulation.None,
