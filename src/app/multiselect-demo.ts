@@ -112,9 +112,7 @@ import {
       </ng-template>
     </div>
   `,
-  styles: `
-    @import url('https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined');
-  `,
+  styles: ``,
 })
 export class MultiselectDemo {
   /** The combobox listbox popup. */
