@@ -7,6 +7,7 @@ import {
   ScMenuPortal,
   ScMenuProvider,
   ScMenuSeparator,
+  ScMenuSubmenuPortal,
   ScMenuTrigger,
 } from './menu';
 
@@ -20,6 +21,7 @@ import {
     ScMenuPortal,
     ScMenuProvider,
     ScMenuSeparator,
+    ScMenuSubmenuPortal,
     ScMenuTrigger,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -108,9 +110,10 @@ import {
               </svg>
 
               <ng-template
-                [cdkConnectedOverlayOpen]="formatMenu.visible()"
-                [cdkConnectedOverlay]="{ origin: categorizeItem, usePopover: 'inline' }"
-                [cdkConnectedOverlayPositions]="[
+                scMenuSubmenuPortal
+                [open]="formatMenu.visible()"
+                [config]="{ origin: categorizeItem, usePopover: 'inline' }"
+                [positions]="[
                   {
                     originX: 'end',
                     originY: 'top',
@@ -119,7 +122,6 @@ import {
                     offsetX: 6,
                   },
                 ]"
-                cdkAttachPopoverAsChild
               >
                 <div scMenu #categorizeMenu="scMenu">
                   <ng-template scMenuContent>
