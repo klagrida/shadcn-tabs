@@ -14,6 +14,7 @@ import { MenuItem } from '@angular/aria/menu';
 import { SIGNAL, signalSetFn } from '@angular/core/primitives/signals';
 import { cn } from '../../utils';
 import { ScMenuPortal } from '../../menu/menu-portal';
+import { ScMenuBar } from './menu-bar';
 
 @Component({
   selector: '[scMenuBarItem]',
@@ -31,7 +32,7 @@ import { ScMenuPortal } from '../../menu/menu-portal';
 
     @if (submenuPortal(); as portal) {
       <ng-template
-        [cdkConnectedOverlayOpen]="submenuOpen()"
+        [cdkConnectedOverlayOpen]="rendered()"
         [cdkConnectedOverlay]="{ origin: overlayOrigin, usePopover: 'inline' }"
         [cdkConnectedOverlayPositions]="[
           {
@@ -61,6 +62,10 @@ export class ScMenuBarItem {
   private readonly menuItem = inject(MenuItem);
   protected readonly submenuOpen = computed(() => !!this.menuItem.expanded());
   protected readonly submenuPortal = contentChild(ScMenuPortal);
+
+  private readonly scMenuBar = inject(ScMenuBar);
+
+  protected readonly rendered = computed(() => this.scMenuBar.rendered());
 
   protected readonly class = computed(() =>
     cn(

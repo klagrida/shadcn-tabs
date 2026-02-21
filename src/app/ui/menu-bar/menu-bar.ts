@@ -14,11 +14,12 @@ import { cn } from '../../utils';
 export class ScMenuBar {
   readonly classInput = input<string>('', { alias: 'class' });
 
+  rendered = signal(false);
+
   protected readonly class = computed(() =>
     cn('flex h-8 items-center gap-0.5 rounded-lg border bg-background p-[3px]', this.classInput()),
   );
 
-  rendered = signal(false);
   onFocusIn() {
     this.rendered.set(true);
   }
