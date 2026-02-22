@@ -9,4 +9,5 @@ export const routes: Routes = [
   { path: 'menubar', loadComponent: () => import('./menubar-demo').then(m => m.MenubarDemo) },
   { path: 'select', loadComponent: () => import('./select-demo').then(m => m.SelectDemo) },
   { path: 'multiselect', loadComponent: () => import('./multiselect-demo').then(m => m.MultiselectDemo) },
+  { path: 'combobox', loadComponent: () => import('./combobox-demo').then(m => m.ComboboxDemo) },
 ];

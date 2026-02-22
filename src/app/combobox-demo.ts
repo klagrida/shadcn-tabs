@@ -32,44 +32,80 @@ import { FormsModule } from '@angular/forms';
     class: 'flex justify-center',
   },
   template: `
-    <div ngCombobox #combobox="ngCombobox" [readonly]="true">
-      <div class="combobox-input-container">
-        <input ngComboboxInput placeholder="Select a country..." [value]="value()" />
-        <span class="material-symbols-outlined icon arrow-icon" translate="no" aria-hidden="true"
-          >arrow_drop_down</span
+    <div ngCombobox #combobox="ngCombobox" [readonly]="true" class="relative w-60 flex flex-col border border-input rounded-lg">
+      <div class="flex relative items-center rounded-lg">
+        <input
+          ngComboboxInput
+          placeholder="Select a country..."
+          [value]="value()"
+          class="w-full cursor-pointer rounded-lg border-none bg-transparent px-3 py-2 text-sm outline-none"
+        />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="text-muted-foreground size-4 shrink-0 opacity-50 absolute right-2.5 pointer-events-none transition-transform duration-150"
+          [class.rotate-180]="combobox.expanded()"
+          aria-hidden="true"
         >
+          <path d="m6 9 6 6 6-6" />
+        </svg>
       </div>
       <ng-template ngComboboxPopupContainer>
-        <dialog ngComboboxDialog class="dialog">
-          <div ngCombobox #combobox="ngCombobox" filterMode="manual" [alwaysExpanded]="true">
-            <div class="combobox-input-container">
-              <span
-                class="material-symbols-outlined icon search-icon"
-                translate="no"
+        <dialog ngComboboxDialog class="absolute p-0 border border-input rounded-lg bg-popover text-popover-foreground shadow-md backdrop:opacity-0">
+          <div ngCombobox filterMode="manual" [alwaysExpanded]="true" class="relative w-full flex flex-col border-none rounded-lg">
+            <div class="flex relative items-center border-b border-input">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="size-4 shrink-0 opacity-50 absolute left-2.5 pointer-events-none"
                 aria-hidden="true"
-                >search</span
               >
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.3-4.3" />
+              </svg>
               <input
                 ngComboboxInput
-                class="combobox-input"
                 placeholder="Search..."
                 [(value)]="searchString"
+                class="w-full rounded-t-lg border-none bg-transparent py-2 pl-9 pr-3 text-sm outline-none"
               />
             </div>
             <ng-template ngComboboxPopupContainer>
               @if (options().length === 0) {
-                <div class="no-results">No results found</div>
+                <div class="p-4 text-sm text-muted-foreground">No results found</div>
               }
-              <div ngListbox [(values)]="selectedCountries">
+              <div ngListbox [(values)]="selectedCountries" class="flex flex-col gap-0.5 max-h-52 overflow-auto p-1">
                 @for (option of options(); track option) {
-                  <div ngOption [value]="option" [label]="option">
-                    <span class="option-label">{{ option }}</span>
-                    <span
-                      class="material-symbols-outlined icon check-icon"
-                      translate="no"
+                  <div
+                    ngOption
+                    [value]="option"
+                    [label]="option"
+                    class="group data-[active=true]:bg-accent data-[active=true]:text-accent-foreground aria-selected:bg-primary/5 aria-selected:text-primary flex cursor-pointer items-center gap-2 rounded-md px-2.5 py-1.5 text-sm outline-hidden select-none hover:bg-accent/50"
+                  >
+                    <span class="flex-1">{{ option }}</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="size-4 shrink-0 opacity-0 group-aria-selected:opacity-100"
                       aria-hidden="true"
-                      >check</span
                     >
+                      <path d="M20 6 9 17l-5-5" />
+                    </svg>
                   </div>
                 }
               </div>
@@ -79,158 +115,7 @@ import { FormsModule } from '@angular/forms';
       </ng-template>
     </div>
   `,
-  styles: `
-    @import url('https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined');
-    :host {
-      display: flex;
-      justify-content: center;
-      font-family: var(--inter-font, system-ui, sans-serif);
-      --border-color: color-mix(
-        in srgb,
-        var(--full-contrast, #000) 20%,
-        var(--page-background, #fff)
-      );
-    }
-    [ngCombobox] {
-      position: relative;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      border: 1px solid var(--border-color);
-      border-radius: 0.25rem;
-    }
-    [ngCombobox]:has([readonly='true']) {
-      width: 15rem;
-    }
-    .combobox-input-container {
-      display: flex;
-      position: relative;
-      align-items: center;
-      border-radius: 0.25rem;
-    }
-    [ngComboboxInput] {
-      border-radius: 0.25rem;
-    }
-    [ngComboboxInput][readonly='true'] {
-      cursor: pointer;
-      padding: 0.7rem 1rem;
-    }
-    [ngCombobox]:focus-within [ngComboboxInput] {
-      outline: none;
-      box-shadow: none;
-    }
-    .icon {
-      width: 24px;
-      height: 24px;
-      font-size: 20px;
-      display: grid;
-      place-items: center;
-      pointer-events: none;
-    }
-    .search-icon {
-      padding: 0 0.5rem;
-      position: absolute;
-      opacity: 0.8;
-    }
-    .arrow-icon {
-      padding: 0 0.5rem;
-      position: absolute;
-      right: 0;
-      opacity: 0.8;
-      transition: transform 0.2s ease;
-    }
-    [ngComboboxInput][aria-expanded='true'] + .arrow-icon {
-      transform: rotate(180deg);
-    }
-    [ngComboboxInput] {
-      width: 100%;
-      border: none;
-      outline: none;
-      font-size: 1rem;
-      padding: 0.7rem 1rem 0.7rem 2.5rem;
-      background-color: var(--septenary-contrast, #f5f5f5);
-      color: var(--primary-contrast, #1a1a1a);
-    }
-    .popover {
-      margin: 0;
-      padding: 0;
-      border: 1px solid var(--border-color);
-      border-radius: 0.25rem;
-      background-color: var(--septenary-contrast, #f5f5f5);
-    }
-    [ngListbox] {
-      gap: 2px;
-      max-height: 200px;
-      display: flex;
-      overflow: auto;
-      flex-direction: column;
-    }
-    [ngOption] {
-      display: flex;
-      cursor: pointer;
-      align-items: center;
-      margin: 1px;
-      padding: 0 1rem;
-      min-height: 2.25rem;
-      border-radius: 0.5rem;
-    }
-    [ngOption]:hover {
-      background-color: color-mix(in srgb, var(--primary-contrast, #1a1a1a) 5%, transparent);
-    }
-    [ngOption][data-active='true'] {
-      outline-offset: -2px;
-      outline: 2px solid var(--vivid-pink, #f542a4);
-    }
-    [ngOption][aria-selected='true'] {
-      color: var(--vivid-pink, #f542a4);
-      background-color: color-mix(in srgb, var(--vivid-pink, #f542a4) 5%, transparent);
-    }
-    [ngOption]:not([aria-selected='true']) .check-icon {
-      display: none;
-    }
-    .option-label {
-      flex: 1;
-    }
-    .check-icon {
-      font-size: 0.9rem;
-    }
-    .dialog {
-      position: absolute;
-      left: auto;
-      right: auto;
-      top: auto;
-      bottom: auto;
-      padding: 0;
-      border: 1px solid var(--border-color);
-      border-radius: 0.25rem;
-      background-color: var(--septenary-contrast, #f5f5f5);
-      color: inherit;
-    }
-    .dialog .combobox-input-container {
-      border-radius: 0;
-    }
-    .dialog [ngCombobox],
-    .dialog .combobox-input-container {
-      border: none;
-    }
-    .dialog [ngComboboxInput] {
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
-    }
-    [ngCombobox]:focus-within [ngComboboxInput]:not(.combobox-input) {
-      outline: 1.5px solid var(--vivid-pink);
-      box-shadow: 0 0 0 4px color-mix(in srgb, var(--vivid-pink) 25%, transparent);
-    }
-    .dialog .combobox-input-container {
-      border-bottom: 1px solid var(--border-color);
-    }
-    .dialog::backdrop {
-      opacity: 0;
-    }
-    .no-results {
-      padding: 1rem;
-    }
-  `,
+  styles: ``,
 })
 export class ComboboxDemo {
   dialog = viewChild(ComboboxDialog);
@@ -260,7 +145,6 @@ export class ComboboxDemo {
     });
     afterRenderEffect(() => this.listbox()?.scrollActiveItemIntoView());
   }
-  // TODO(wagnermaciel): Switch to using the CDK for positioning.
   positionDialog() {
     const dialog = this.dialog()!;
     const combobox = this.combobox()!;
