@@ -2,6 +2,7 @@ import { Listbox, Option } from '@angular/aria/listbox';
 import { ScMultiselectList } from './ui/multiselect/multiselect-list';
 import { ScMultiselectOption } from './ui/multiselect/multiselect-option';
 import { ScMultiselectTrigger } from './ui/multiselect/multiselect-trigger';
+import { ScMultiselectContent } from './ui/multiselect/multiselect-content';
 import {
   afterRenderEffect,
   ChangeDetectionStrategy,
@@ -19,6 +20,7 @@ import { ScMultiselectPortal } from './ui/multiselect/multiselect-portal';
     ScMultiselect,
     ScMultiselectPortal,
     ScMultiselectTrigger,
+    ScMultiselectContent,
     ScMultiselectList,
     ScMultiselectOption,
   ],
@@ -40,10 +42,7 @@ import { ScMultiselectPortal } from './ui/multiselect/multiselect-portal';
       </div>
 
       <ng-template scMultiselectPortal>
-        <div
-          class="bg-popover text-popover-foreground mt-1 w-full rounded-lg p-1 shadow-md ring-1 ring-foreground/10 text-sm transition-all duration-150"
-          [class]="multiselect()?.expanded() ? 'max-h-44 opacity-100 visible' : 'max-h-0 opacity-0 invisible overflow-hidden'"
-        >
+        <div scMultiselectContent>
           <div scMultiselectList multi>
             @for (label of labels; track label.value) {
               <div
