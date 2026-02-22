@@ -3,14 +3,14 @@ import { cn } from '../../utils';
 import { ScMultiselect } from './multiselect';
 
 @Directive({
-  selector: '[scMultiselectContent]',
-  exportAs: 'scMultiselectContent',
+  selector: '[scMultiselectPopup]',
+  exportAs: 'scMultiselectPopup',
   host: {
-    'data-slot': 'multiselect-content',
+    'data-slot': 'multiselect-popup',
     '[class]': 'class()',
   },
 })
-export class ScMultiselectContent {
+export class ScMultiselectPopup {
   readonly classInput = input<string>('', { alias: 'class' });
   private readonly multiselect = inject(ScMultiselect);
 
