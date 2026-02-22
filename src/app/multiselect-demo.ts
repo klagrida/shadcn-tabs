@@ -1,18 +1,17 @@
-import { Listbox, Option } from '@angular/aria/listbox';
-import { ScMultiselectList } from './ui/multiselect/multiselect-list';
-import { ScMultiselectOption } from './ui/multiselect/multiselect-option';
-import { ScMultiselectTrigger } from './ui/multiselect/multiselect-trigger';
-import { ScMultiselectPopup } from './ui/multiselect/multiselect-popup';
 import {
-  afterRenderEffect,
   ChangeDetectionStrategy,
   Component,
   computed,
   viewChild,
-  viewChildren,
 } from '@angular/core';
-import { ScMultiselect } from './ui/multiselect/multiselect';
-import { ScMultiselectPortal } from './ui/multiselect/multiselect-portal';
+import {
+  ScMultiselect,
+  ScMultiselectList,
+  ScMultiselectOption,
+  ScMultiselectPopup,
+  ScMultiselectPortal,
+  ScMultiselectTrigger,
+} from './ui/multiselect';
 
 @Component({
   selector: 'multiselect-demo',
@@ -54,19 +53,6 @@ import { ScMultiselectPortal } from './ui/multiselect/multiselect-portal';
                   <path [attr.d]="label.icon" />
                 </svg>
                 <span class="flex-1">{{ label.value }}</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="size-4 shrink-0 opacity-0 group-aria-selected:opacity-100"
-                  aria-hidden="true"
-                >
-                  <path d="M20 6 9 17l-5-5" />
-                </svg>
               </div>
             }
           </div>
@@ -77,23 +63,19 @@ import { ScMultiselectPortal } from './ui/multiselect/multiselect-portal';
   styles: ``,
 })
 export class MultiselectDemo {
-  /** The combobox listbox popup. */
-  listbox = viewChild<Listbox<string>>(Listbox);
-  /** The options available in the listbox. */
-  options = viewChildren<Option<string>>(Option);
-  /** A reference to the multiselect wrapper. */
-  multiselect = viewChild(ScMultiselect);
+  /** A reference to the multiselect list. */
+  list = viewChild(ScMultiselectList);
 
   /** The icon that is displayed in the combobox. */
   displayIcon = computed(() => {
-    const values = this.listbox()?.values() || [];
+    const values = this.list()?.listbox.values() || [];
     const label = this.labels.find((l) => l.value === values[0]);
     return label ? label.icon : '';
   });
 
   /** The string that is displayed in the combobox. */
   displayValue = computed(() => {
-    const values = this.listbox()?.values() || [];
+    const values = this.list()?.listbox.values() || [];
     if (values.length === 0) {
       return 'Select a label';
     }
@@ -114,19 +96,4 @@ export class MultiselectDemo {
     { value: 'Read', icon: 'M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z' },
     { value: 'Travel', icon: 'M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z' },
   ];
-
-  constructor() {
-    // Scrolls to the active item when the active option changes.
-    // The slight delay here is to ensure animations are done before scrolling.
-    afterRenderEffect(() => {
-      const option = this.options().find((opt) => opt.active());
-      setTimeout(() => option?.element.scrollIntoView({ block: 'nearest' }), 50);
-    });
-    // Resets the listbox scroll position when the combobox is closed.
-    afterRenderEffect(() => {
-      if (!this.multiselect()?.expanded()) {
-        setTimeout(() => this.listbox()?.element.scrollTo(0, 0), 150);
-      }
-    });
-  }
 }
