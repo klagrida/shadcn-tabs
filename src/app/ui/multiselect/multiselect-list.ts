@@ -3,6 +3,7 @@ import {
   computed,
   contentChildren,
   Directive,
+  effect,
   inject,
   input,
 } from '@angular/core';
@@ -35,6 +36,11 @@ export class ScMultiselectList<V = string> {
   );
 
   constructor() {
+    // Syncs the listbox selection with the parent model value.
+    effect(() => {
+      this.multiselect.value.set(this.listbox.values());
+    });
+
     // Scrolls to the active item when the active option changes.
     afterRenderEffect(() => {
       const option = this.options().find((opt) => opt.active());

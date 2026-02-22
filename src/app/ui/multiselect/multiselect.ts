@@ -5,6 +5,7 @@ import {
   contentChild,
   inject,
   input,
+  model,
   ViewEncapsulation,
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
@@ -46,6 +47,7 @@ import { ScMultiselectPortal } from './multiselect-portal';
 })
 export class ScMultiselect<V = string> {
   readonly classInput = input<string>('', { alias: 'class' });
+  readonly value = model<V[]>([]);
   readonly combobox = inject<Combobox<V>>(Combobox);
   readonly expanded = this.combobox.expanded;
 

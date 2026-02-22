@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  viewChild,
+  signal,
 } from '@angular/core';
 import {
   ScMultiselect,
@@ -28,7 +28,7 @@ import {
     class: 'flex justify-center',
   },
   template: `
-    <div scMultiselect readonly>
+    <div scMultiselect readonly [(value)]="selectedValues">
       <div scMultiselectTrigger aria-label="Label dropdown" placeholder="Select a label">
         <span class="gap-2 left-2.5 flex absolute items-center pointer-events-none">
           @if (displayIcon(); as icon) {
@@ -63,19 +63,16 @@ import {
   styles: ``,
 })
 export class MultiselectDemo {
-  /** A reference to the multiselect list. */
-  list = viewChild(ScMultiselectList);
+  selectedValues = signal<string[]>([]);
 
-  /** The icon that is displayed in the combobox. */
   displayIcon = computed(() => {
-    const values = this.list()?.listbox.values() || [];
+    const values = this.selectedValues();
     const label = this.labels.find((l) => l.value === values[0]);
     return label ? label.icon : '';
   });
 
-  /** The string that is displayed in the combobox. */
   displayValue = computed(() => {
-    const values = this.list()?.listbox.values() || [];
+    const values = this.selectedValues();
     if (values.length === 0) {
       return 'Select a label';
     }
