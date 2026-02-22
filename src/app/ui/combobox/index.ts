@@ -1,5 +1,6 @@
 export { ScCombobox } from './combobox';
 export { ScComboboxTrigger } from './combobox-trigger';
+export { ScComboboxValue } from './combobox-value';
 export { ScComboboxPopup } from './combobox-popup';
 export { ScComboboxInput } from './combobox-input';
 export { ScComboboxList } from './combobox-list';

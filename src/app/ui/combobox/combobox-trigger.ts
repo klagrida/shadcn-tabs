@@ -17,12 +17,12 @@ import { ScCombobox } from './combobox';
   imports: [ComboboxInput],
   hostDirectives: [CdkOverlayOrigin],
   template: `
+    <ng-content />
     <input
       ngComboboxInput
       [attr.aria-label]="ariaLabel()"
       [placeholder]="placeholder()"
-      [value]="combobox.value().join(', ')"
-      class="w-full cursor-pointer rounded-lg border-none bg-transparent px-3 py-2 text-sm outline-none"
+      class="opacity-0 cursor-pointer absolute inset-0 border-none bg-transparent outline-none"
     />
     <svg
       xmlns="http://www.w3.org/2000/svg"

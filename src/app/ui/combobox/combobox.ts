@@ -29,12 +29,16 @@ import { ScComboboxPortal } from './combobox-portal';
 
     @if (portal(); as p) {
       <ng-template ngComboboxPopupContainer>
-        <ng-template
-          [cdkConnectedOverlay]="{ origin: overlayOrigin(), usePopover: 'inline', matchWidth: true }"
-          [cdkConnectedOverlayOpen]="true"
-        >
+        @if (combobox.alwaysExpanded()) {
           <ng-container [ngTemplateOutlet]="p.templateRef" />
-        </ng-template>
+        } @else {
+          <ng-template
+            [cdkConnectedOverlay]="{ origin: overlayOrigin(), usePopover: 'inline', matchWidth: true }"
+            [cdkConnectedOverlayOpen]="true"
+          >
+            <ng-container [ngTemplateOutlet]="p.templateRef" />
+          </ng-template>
+        }
       </ng-template>
     }
   `,

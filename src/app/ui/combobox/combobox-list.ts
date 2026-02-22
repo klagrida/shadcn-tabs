@@ -17,7 +17,8 @@ import { ScCombobox } from './combobox';
   hostDirectives: [
     {
       directive: Listbox,
-      inputs: ['multi', 'disabled', 'wrap', 'typeaheadDelay'],
+      inputs: ['multi', 'disabled', 'wrap', 'typeaheadDelay', 'values'],
+      outputs: ['valuesChange'],
     },
   ],
   host: {
