@@ -1,5 +1,7 @@
 import { ComboboxInput } from '@angular/aria/combobox';
 import { Listbox, Option } from '@angular/aria/listbox';
+import { ScMultiselectList } from './ui/multiselect/multiselect-list';
+import { ScMultiselectOption } from './ui/multiselect/multiselect-option';
 import { CdkOverlayOrigin } from '@angular/cdk/overlay';
 import {
   afterRenderEffect,
@@ -19,8 +21,8 @@ import { ScMultiselectPortal } from './ui/multiselect/multiselect-portal';
     ScMultiselectPortal,
     ComboboxInput,
     CdkOverlayOrigin,
-    Listbox,
-    Option,
+    ScMultiselectList,
+    ScMultiselectOption,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
@@ -67,13 +69,12 @@ import { ScMultiselectPortal } from './ui/multiselect/multiselect-portal';
           class="bg-popover text-popover-foreground mt-1 w-full rounded-lg p-1 shadow-md ring-1 ring-foreground/10 text-sm transition-all duration-150"
           [class]="multiselect()?.expanded() ? 'max-h-44 opacity-100 visible' : 'max-h-0 opacity-0 invisible overflow-hidden'"
         >
-          <div ngListbox multi class="flex flex-col gap-0.5 h-full overflow-auto">
+          <div scMultiselectList multi>
             @for (label of labels; track label.value) {
               <div
-                ngOption
+                scMultiselectOption
                 [value]="label.value"
                 [label]="label.value"
-                class="group data-[active=true]:bg-accent data-[active=true]:text-accent-foreground aria-selected:bg-primary/5 aria-selected:text-primary flex cursor-pointer items-center gap-2 rounded-md px-2.5 py-1.5 text-sm outline-hidden select-none hover:bg-accent/50"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4 shrink-0" aria-hidden="true">
                   <path [attr.d]="label.icon" />
