@@ -3,7 +3,6 @@ import {
   computed,
   contentChildren,
   Directive,
-  effect,
   inject,
   input,
 } from '@angular/core';
@@ -37,10 +36,6 @@ export class ScComboboxList<V = string> {
   );
 
   constructor() {
-    effect(() => {
-      this.combobox.value.set(this.listbox.values());
-    });
-
     afterRenderEffect(() => {
       const option = this.options().find((opt) => opt.active());
       setTimeout(() => option?.element.scrollIntoView({ block: 'nearest' }), 50);

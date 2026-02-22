@@ -5,11 +5,9 @@ import {
   contentChild,
   inject,
   input,
-  model,
   ViewEncapsulation,
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
-import { CdkOverlayOrigin, OverlayModule } from '@angular/cdk/overlay';
 import { Combobox, ComboboxPopupContainer } from '@angular/aria/combobox';
 import { cn } from '../../utils';
 import { ScComboboxPortal } from './combobox-portal';
@@ -17,11 +15,11 @@ import { ScComboboxPortal } from './combobox-portal';
 @Component({
   selector: '[scCombobox]',
   exportAs: 'scCombobox',
-  imports: [OverlayModule, NgTemplateOutlet, ComboboxPopupContainer],
+  imports: [ComboboxPopupContainer, NgTemplateOutlet],
   hostDirectives: [
     {
       directive: Combobox,
-      inputs: ['filterMode', 'disabled', 'readonly', 'alwaysExpanded'],
+      inputs: ['disabled', 'readonly'],
     },
   ],
   template: `
@@ -29,16 +27,7 @@ import { ScComboboxPortal } from './combobox-portal';
 
     @if (portal(); as p) {
       <ng-template ngComboboxPopupContainer>
-        @if (combobox.alwaysExpanded()) {
-          <ng-container [ngTemplateOutlet]="p.templateRef" />
-        } @else {
-          <ng-template
-            [cdkConnectedOverlay]="{ origin: overlayOrigin(), usePopover: 'inline', matchWidth: true }"
-            [cdkConnectedOverlayOpen]="true"
-          >
-            <ng-container [ngTemplateOutlet]="p.templateRef" />
-          </ng-template>
-        }
+        <ng-container [ngTemplateOutlet]="p.templateRef" />
       </ng-template>
     }
   `,
@@ -51,14 +40,12 @@ import { ScComboboxPortal } from './combobox-portal';
 })
 export class ScCombobox<V = string> {
   readonly classInput = input<string>('', { alias: 'class' });
-  readonly value = model<V[]>([]);
   readonly combobox = inject<Combobox<V>>(Combobox);
   readonly expanded = this.combobox.expanded;
 
   protected readonly portal = contentChild(ScComboboxPortal);
-  protected readonly overlayOrigin = contentChild(CdkOverlayOrigin);
 
   protected readonly class = computed(() =>
-    cn('relative flex flex-col', this.classInput()),
+    cn('relative flex flex-col border border-input rounded-lg', this.classInput()),
   );
 }

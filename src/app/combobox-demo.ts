@@ -14,48 +14,38 @@ import {
   untracked,
   viewChild,
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {
+  ScCombobox,
+  ScComboboxPortal,
+  ScComboboxTrigger,
+  ScComboboxValue,
+} from './ui/combobox';
 
 @Component({
   selector: 'combobox-demo',
   imports: [
+    ScCombobox,
+    ScComboboxPortal,
+    ScComboboxTrigger,
+    ScComboboxValue,
     ComboboxDialog,
     Combobox,
     ComboboxInput,
     ComboboxPopupContainer,
     Listbox,
     Option,
-    FormsModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'flex justify-center',
   },
   template: `
-    <div ngCombobox #combobox="ngCombobox" [readonly]="true" class="relative w-60 flex flex-col border border-input rounded-lg">
-      <div class="flex relative items-center rounded-lg">
-        <input
-          ngComboboxInput
-          placeholder="Select a country..."
-          [value]="value()"
-          class="w-full cursor-pointer rounded-lg border-none bg-transparent px-3 py-2 text-sm outline-none"
-        />
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="text-muted-foreground size-4 shrink-0 opacity-50 absolute right-2.5 pointer-events-none transition-transform duration-150"
-          [class.rotate-180]="combobox.expanded()"
-          aria-hidden="true"
-        >
-          <path d="m6 9 6 6 6-6" />
-        </svg>
+    <div scCombobox #combobox="scCombobox" [readonly]="true" class="w-60">
+      <div scComboboxTrigger aria-label="Country selector" placeholder="Select a country...">
+        <span scComboboxValue>{{ value() || 'Select a country...' }}</span>
       </div>
-      <ng-template ngComboboxPopupContainer>
+
+      <ng-template scComboboxPortal>
         <dialog ngComboboxDialog class="absolute p-0 border border-input rounded-lg bg-popover text-popover-foreground shadow-md backdrop:opacity-0">
           <div ngCombobox filterMode="manual" [alwaysExpanded]="true" class="relative w-full flex flex-col border-none rounded-lg">
             <div class="flex relative items-center border-b border-input">
@@ -120,7 +110,7 @@ import { FormsModule } from '@angular/forms';
 export class ComboboxDemo {
   dialog = viewChild(ComboboxDialog);
   listbox = viewChild<Listbox<string>>(Listbox);
-  combobox = viewChild<Combobox<string>>(Combobox);
+  outerCombobox = viewChild.required<ScCombobox>('combobox');
   value = signal('');
   searchString = signal('');
   options = computed(() =>
@@ -131,7 +121,7 @@ export class ComboboxDemo {
   selectedCountries = signal<string[]>([]);
   constructor() {
     afterRenderEffect(() => {
-      if (this.dialog() && this.combobox()?.expanded()) {
+      if (this.dialog() && this.outerCombobox().expanded()) {
         untracked(() => this.listbox()?.gotoFirst());
         this.positionDialog();
       }
@@ -147,7 +137,7 @@ export class ComboboxDemo {
   }
   positionDialog() {
     const dialog = this.dialog()!;
-    const combobox = this.combobox()!;
+    const combobox = this.outerCombobox().combobox;
     const comboboxRect = combobox.inputElement()?.getBoundingClientRect();
     const scrollY = window.scrollY;
     if (comboboxRect) {
