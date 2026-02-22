@@ -11,6 +11,7 @@ import {
   ScMultiselectPopup,
   ScMultiselectPortal,
   ScMultiselectTrigger,
+  ScMultiselectValue,
 } from './ui/multiselect';
 
 @Component({
@@ -22,6 +23,7 @@ import {
     ScMultiselectPopup,
     ScMultiselectList,
     ScMultiselectOption,
+    ScMultiselectValue,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
@@ -30,13 +32,13 @@ import {
   template: `
     <div scMultiselect readonly [(value)]="selectedValues">
       <div scMultiselectTrigger aria-label="Label dropdown" placeholder="Select a label">
-        <span class="gap-2 left-2.5 flex absolute items-center pointer-events-none">
+        <span scMultiselectValue>
           @if (displayIcon(); as icon) {
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4 shrink-0" aria-hidden="true">
               <path [attr.d]="icon" />
             </svg>
           }
-          <span class="text-sm select-none">{{ displayValue() }}</span>
+          {{ displayValue() }}
         </span>
       </div>
 
