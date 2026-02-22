@@ -1,8 +1,7 @@
-import { ComboboxInput } from '@angular/aria/combobox';
 import { Listbox, Option } from '@angular/aria/listbox';
 import { ScMultiselectList } from './ui/multiselect/multiselect-list';
 import { ScMultiselectOption } from './ui/multiselect/multiselect-option';
-import { CdkOverlayOrigin } from '@angular/cdk/overlay';
+import { ScMultiselectTrigger } from './ui/multiselect/multiselect-trigger';
 import {
   afterRenderEffect,
   ChangeDetectionStrategy,
@@ -19,8 +18,7 @@ import { ScMultiselectPortal } from './ui/multiselect/multiselect-portal';
   imports: [
     ScMultiselect,
     ScMultiselectPortal,
-    ComboboxInput,
-    CdkOverlayOrigin,
+    ScMultiselectTrigger,
     ScMultiselectList,
     ScMultiselectOption,
   ],
@@ -30,10 +28,7 @@ import { ScMultiselectPortal } from './ui/multiselect/multiselect-portal';
   },
   template: `
     <div scMultiselect readonly>
-      <div
-        cdkOverlayOrigin
-        class="border-input dark:bg-input/30 dark:hover:bg-input/50 flex relative items-center rounded-lg border bg-transparent transition-colors hover:bg-accent/50 has-[[ngComboboxInput][aria-disabled=true]]:opacity-50 has-[[ngComboboxInput][aria-disabled=true]]:cursor-default"
-      >
+      <div scMultiselectTrigger aria-label="Label dropdown" placeholder="Select a label">
         <span class="gap-2 left-2.5 flex absolute items-center pointer-events-none">
           @if (displayIcon(); as icon) {
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4 shrink-0" aria-hidden="true">
@@ -42,26 +37,6 @@ import { ScMultiselectPortal } from './ui/multiselect/multiselect-portal';
           }
           <span class="text-sm select-none">{{ displayValue() }}</span>
         </span>
-        <input
-          aria-label="Label dropdown"
-          placeholder="Select a label"
-          ngComboboxInput
-          class="opacity-0 cursor-pointer px-14 h-8 border-none bg-transparent outline-none"
-        />
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="text-muted-foreground size-4 shrink-0 opacity-50 absolute right-2.5 pointer-events-none transition-transform duration-150"
-          [class.rotate-180]="multiselect()?.expanded()"
-          aria-hidden="true"
-        >
-          <path d="m6 9 6 6 6-6" />
-        </svg>
       </div>
 
       <ng-template scMultiselectPortal>
