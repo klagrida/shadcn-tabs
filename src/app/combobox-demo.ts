@@ -1,4 +1,11 @@
 import {
+  Combobox,
+  ComboboxDialog,
+  ComboboxInput,
+  ComboboxPopupContainer,
+} from '@angular/aria/combobox';
+import { Listbox, Option } from '@angular/aria/listbox';
+import {
   afterRenderEffect,
   ChangeDetectionStrategy,
   Component,
@@ -7,99 +14,149 @@ import {
   untracked,
   viewChild,
 } from '@angular/core';
-import {
-  ScCombobox,
-  ScComboboxEmpty,
-  ScComboboxInput,
-  ScComboboxList,
-  ScComboboxOption,
-  ScComboboxPopup,
-  ScComboboxPortal,
-  ScComboboxTrigger,
-  ScComboboxValue,
-} from './ui/combobox';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'combobox-demo',
   imports: [
-    ScCombobox,
-    ScComboboxTrigger,
-    ScComboboxValue,
-    ScComboboxPopup,
-    ScComboboxPortal,
-    ScComboboxInput,
-    ScComboboxList,
-    ScComboboxOption,
-    ScComboboxEmpty,
+    ComboboxDialog,
+    Combobox,
+    ComboboxInput,
+    ComboboxPopupContainer,
+    Listbox,
+    Option,
+    FormsModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'flex justify-center',
   },
   template: `
-    <div scCombobox #outerCombobox="scCombobox" [readonly]="true" class="w-60 border border-input rounded-lg">
-      <div scComboboxTrigger aria-label="Country selector" placeholder="Select a country...">
-        <span scComboboxValue [class]="selectedCountries().length === 0 ? 'text-muted-foreground' : ''">
-          {{ displayValue() }}
-        </span>
+    <div ngCombobox #combobox="ngCombobox" [readonly]="true" class="relative w-60 flex flex-col border border-input rounded-lg">
+      <div class="flex relative items-center rounded-lg">
+        <input
+          ngComboboxInput
+          placeholder="Select a country..."
+          [value]="value()"
+          class="w-full cursor-pointer rounded-lg border-none bg-transparent px-3 py-2 text-sm outline-none"
+        />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="text-muted-foreground size-4 shrink-0 opacity-50 absolute right-2.5 pointer-events-none transition-transform duration-150"
+          [class.rotate-180]="combobox.expanded()"
+          aria-hidden="true"
+        >
+          <path d="m6 9 6 6 6-6" />
+        </svg>
       </div>
-
-      <ng-template scComboboxPortal>
-        <div scComboboxPopup>
-          <div scCombobox filterMode="manual" [alwaysExpanded]="true" class="border-none">
-            <div scComboboxInput [(value)]="searchString" placeholder="Search..."></div>
-
-            <ng-template scComboboxPortal>
+      <ng-template ngComboboxPopupContainer>
+        <dialog ngComboboxDialog class="absolute p-0 border border-input rounded-lg bg-popover text-popover-foreground shadow-md backdrop:opacity-0">
+          <div ngCombobox filterMode="manual" [alwaysExpanded]="true" class="relative w-full flex flex-col border-none rounded-lg">
+            <div class="flex relative items-center border-b border-input">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="size-4 shrink-0 opacity-50 absolute left-2.5 pointer-events-none"
+                aria-hidden="true"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.3-4.3" />
+              </svg>
+              <input
+                ngComboboxInput
+                placeholder="Search..."
+                [(value)]="searchString"
+                class="w-full rounded-t-lg border-none bg-transparent py-2 pl-9 pr-3 text-sm outline-none"
+              />
+            </div>
+            <ng-template ngComboboxPopupContainer>
               @if (options().length === 0) {
-                <div scComboboxEmpty>No results found</div>
+                <div class="p-4 text-sm text-muted-foreground">No results found</div>
               }
-              <div scComboboxList [(values)]="selectedCountries">
+              <div ngListbox [(values)]="selectedCountries" class="flex flex-col gap-0.5 max-h-52 overflow-auto p-1">
                 @for (option of options(); track option) {
                   <div
-                    scComboboxOption
+                    ngOption
                     [value]="option"
                     [label]="option"
+                    class="group data-[active=true]:bg-accent data-[active=true]:text-accent-foreground aria-selected:bg-primary/5 aria-selected:text-primary flex cursor-pointer items-center gap-2 rounded-md px-2.5 py-1.5 text-sm outline-hidden select-none hover:bg-accent/50"
                   >
                     <span class="flex-1">{{ option }}</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="size-4 shrink-0 opacity-0 group-aria-selected:opacity-100"
+                      aria-hidden="true"
+                    >
+                      <path d="M20 6 9 17l-5-5" />
+                    </svg>
                   </div>
                 }
               </div>
             </ng-template>
           </div>
-        </div>
+        </dialog>
       </ng-template>
     </div>
   `,
   styles: ``,
 })
 export class ComboboxDemo {
-  outerCombobox = viewChild.required<ScCombobox>('outerCombobox');
+  dialog = viewChild(ComboboxDialog);
+  listbox = viewChild<Listbox<string>>(Listbox);
+  combobox = viewChild<Combobox<string>>(Combobox);
+  value = signal('');
   searchString = signal('');
-  selectedCountries = signal<string[]>([]);
-
-  displayValue = computed(() => {
-    const values = this.selectedCountries();
-    return values.length > 0 ? values[0] : 'Select a country...';
-  });
-
   options = computed(() =>
     ALL_COUNTRIES.filter((country) =>
       country.toLowerCase().startsWith(this.searchString().toLowerCase()),
     ),
   );
-
+  selectedCountries = signal<string[]>([]);
   constructor() {
     afterRenderEffect(() => {
-      if (this.selectedCountries().length > 0) {
-        untracked(() => {
-          this.outerCombobox().combobox.close();
-          this.searchString.set('');
-        });
+      if (this.dialog() && this.combobox()?.expanded()) {
+        untracked(() => this.listbox()?.gotoFirst());
+        this.positionDialog();
       }
     });
+    afterRenderEffect(() => {
+      if (this.selectedCountries().length > 0) {
+        untracked(() => this.dialog()?.close());
+        this.value.set(this.selectedCountries()[0]);
+        this.searchString.set('');
+      }
+    });
+    afterRenderEffect(() => this.listbox()?.scrollActiveItemIntoView());
+  }
+  positionDialog() {
+    const dialog = this.dialog()!;
+    const combobox = this.combobox()!;
+    const comboboxRect = combobox.inputElement()?.getBoundingClientRect();
+    const scrollY = window.scrollY;
+    if (comboboxRect) {
+      dialog.element.style.width = `${comboboxRect.width}px`;
+      dialog.element.style.top = `${comboboxRect.bottom + scrollY + 4}px`;
+      dialog.element.style.left = `${comboboxRect.left - 1}px`;
+    }
   }
 }
-
 const ALL_COUNTRIES = [
   'Afghanistan',
   'Albania',
